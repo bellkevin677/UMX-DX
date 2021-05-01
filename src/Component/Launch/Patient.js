@@ -1,6 +1,6 @@
-const Provider = (props) => {
+const Patient = (props) => {
     
     return props.events.patient.launch()
 };
 
-export default Provider;
+export default Patient;
