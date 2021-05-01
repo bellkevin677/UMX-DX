@@ -1,0 +1,66 @@
+.App {
+  text-align: center;
+  height: 100vh;
+}
+
+.App-Main, .App-Account {
+  margin: 0 15vw;
+}
+
+.App-Header {
+  padding: 50px 18vw 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Header-Navbar {
+  display: flex;
+}
+
+.Header-Link {
+  padding: 5px 10px;
+  font-size: 1.75em;
+  color: #000;
+  text-decoration: unset;
+}
+
+.Header-Link:hover {
+  color: #AF6FC3;
+}
+
+.Main-LogIn {
+  margin: 80px auto 0;
+  padding: 20px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid slategray;
+  border-radius: 5px;
+}
+
+.LogIn-Text, .LogIn-Btn {
+  padding: 5px 8px;
+  font-size: 1.25em;
+  border: 1px solid silver;
+  border-radius: 5px;
+}
+
+.LogIn-Text {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.LogIn-Text:focus {
+  border-color: #AF6FC3;
+  border-radius: 10px;
+}
+
+.LogIn-Btn {
+  width: 100px;
+}
+
+.LogIn-Btn:hover {
+  color: #AF6FC3;
+}
