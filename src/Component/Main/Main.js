@@ -1,6 +1,5 @@
 import React from 'react';
 import LogIn from './LogIn';
-import Spinner from '../Spinner';
 
 export default class Main extends React.Component {
     // constructor(props) {

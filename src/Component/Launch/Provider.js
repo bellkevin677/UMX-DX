@@ -1,6 +1,8 @@
+import Spinner from '../Spinner';
+
 const Provider = (props) => {
-    
-    return props.events.provider.launch()
+    props.events.provider.launch();
+    return <Spinner/>
 };
 
 export default Provider;

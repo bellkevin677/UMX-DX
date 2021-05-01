@@ -1,6 +1,9 @@
+import Spinner from '../Spinner';
+
 const Patient = (props) => {
-    
-    return props.events.patient.launch()
+
+    props.events.patient.launch();
+    return <Spinner/>
 };
 
 export default Patient;
