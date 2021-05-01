@@ -2,7 +2,8 @@ import React from 'react';
 import {  
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  useLocation
 } from 'react-router-dom';
 import Spinner from './Component/Spinner';
 import Header from './Component/Header';
@@ -33,7 +34,7 @@ export default class App extends React.Component {
       events,
       loggedIn,
       authorized
-    } = this.state;
+    } = this.state
 
     return <div className="App">
       <Router>
@@ -43,7 +44,7 @@ export default class App extends React.Component {
           UserLogOut={events.user.logOut}
         />
         <Switch>
-          <Route exact path='/'>
+          <Route exact path='/UMX-DX/'>
             <React.Suspense fallback={<Spinner/>}>
               <Main
                 LoggedIn={loggedIn}
@@ -53,12 +54,12 @@ export default class App extends React.Component {
               />
             </React.Suspense>
           </Route>
-          <Route path="/UMX-DX/launch-patient?iss=https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d">
+          <Route path="/UMX-DX/launch-patient">
             <React.Suspense fallback={<Spinner/>}>
               <Patient events={events}/>
             </React.Suspense>
           </Route>
-          <Route path="/UMX-DX/launch-provider?iss=https://fhir-ehr-code.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d">
+          <Route path="/UMX-DX/launch-provider">
             <React.Suspense fallback={<Spinner/>}>
               <Provider events={events}/>
             </React.Suspense>
