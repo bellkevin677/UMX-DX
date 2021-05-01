@@ -53,12 +53,12 @@ export default class App extends React.Component {
               />
             </React.Suspense>
           </Route>
-          <Route path='/launch?iss=https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d'>
+          <Route path='/launch-patient?iss=https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d'>
             <React.Suspense fallback={<Spinner/>}>
               <Patient events={events}/>
             </React.Suspense>
           </Route>
-          <Route path='/launch'>
+          <Route path='/launch-provider"/launch?iss=https://fhir-ehr-code.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d"'>
             <React.Suspense fallback={<Spinner/>}>
               <Provider events={events}/>
             </React.Suspense>
