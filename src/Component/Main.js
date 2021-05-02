@@ -1,6 +1,7 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 
-export default class App extends React.Component {
+class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
@@ -30,3 +31,7 @@ export default class App extends React.Component {
     </div>
   }
 }
+
+const MainWithRouter = withRouter(Main);
+
+export default MainWithRouter

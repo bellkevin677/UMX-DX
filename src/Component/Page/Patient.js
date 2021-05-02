@@ -1,4 +1,5 @@
-import Events from "../../Events";
+import { withRouter } from 'react-router-dom';
+import Events from '../../Events';
 
 const Patient = () => {
 
@@ -9,4 +10,6 @@ const Patient = () => {
     </div>
 };
 
-export default Patient;
+const PatientWithRouter = withRouter(Patient);
+
+export default PatientWithRouter;

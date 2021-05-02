@@ -1,3 +1,4 @@
+import { withRouter } from 'react-router-dom';
 import Events from '../../Events';
 
 const Provider = () => {
@@ -5,4 +6,6 @@ const Provider = () => {
     return Events.provider.launch();
 };
 
-export default Provider;
+const ProviderWithRouter = withRouter(Provider);
+
+export default ProviderWithRouter;

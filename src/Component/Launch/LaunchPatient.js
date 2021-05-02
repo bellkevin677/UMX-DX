@@ -1,3 +1,4 @@
+import { withRouter } from 'react-router';
 import Events from '../../Events';
 
 const Patient = () => {
@@ -5,4 +6,6 @@ const Patient = () => {
     return Events.patient.launch();
 };
 
-export default Patient;
+const PatientWithRouter = withRouter(Patient);
+
+export default PatientWithRouter;
