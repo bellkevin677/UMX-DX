@@ -3,7 +3,10 @@ import Events from '../../Events';
 
 const Provider = () => {
 
-    return Events.provider.launch();
+    Events.provider.launch();
+    return <div className="App-Launch">
+        <h1>Please wait...</h1>
+    </div>
 };
 
 const ProviderWithRouter = withRouter(Provider);

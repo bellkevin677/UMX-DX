@@ -2,8 +2,11 @@ import { withRouter } from 'react-router';
 import Events from '../../Events';
 
 const Patient = () => {
-    
-    return Events.patient.launch();
+
+    Events.patient.launch();
+    return <div className="App-Launch">
+        <h1>Please wait...</h1>
+    </div>
 };
 
 const PatientWithRouter = withRouter(Patient);
