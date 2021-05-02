@@ -31,7 +31,7 @@ function RouterSwitch(props) {
   if (code && state) props.setAppState({ LoggedIn: true });
 
   return <Switch>
-    <Route path='/'>
+    <Route exact path='/'>
       <Main 
         LoggedIn={props.LoggedIn}
         Authorized={props.Authorized}
