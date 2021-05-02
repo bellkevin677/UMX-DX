@@ -1,33 +1,38 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Header = (props) => {
     
     return <header className="App-Header">
-        <Link 
-            to="/UMX-DX/" 
+        <NavLink 
+            to="/" 
+            activeClassName="Header-Link-Selected"
             className="Header-Link"
-        >UMX-DX App</Link>
+        >UMX-DX App</NavLink>
         {props.LoggedIn ? (
             <div className="Header-Navbar">
-                <Link 
-                    to="/UMX-DX/patient" 
+                <NavLink 
+                    to="/patient" 
+                    activeClassName="Header-Link-Selected"
                     className="Header-Link"
-                >Patient</Link>
-                <Link 
-                    to="/UMX-DX/provider" 
+                >Patient</NavLink>
+                <NavLink 
+                    to="/provider" 
+                    activeClassName="Header-Link-Selected"
                     className="Header-Link"
-                >Provider</Link>
+                >Provider</NavLink>
             </div>
         ) : (
             <div className="Header-Navbar">
-                <Link 
-                    to="/UMX-DX/launch-patient" 
+                <NavLink 
+                    to="/launch-patient" 
+                    activeClassName="Header-Link-Selected"
                     className="Header-Link"
-                >Patient</Link>
-                <Link 
-                    to="/UMX-DX/launch-provider" 
+                >Patient</NavLink>
+                <NavLink 
+                    to="/launch-provider" 
+                    activeClassName="Header-Link-Selected"
                     className="Header-Link"
-                >Provider</Link>
+                >Provider</NavLink>
             </div>
         )}
     </header>;

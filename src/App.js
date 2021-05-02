@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useLocation
+  useLocation,
+  withRouter
 } from 'react-router-dom';
 import Header from './Component/Header';
 import Main from './Component/Main';
@@ -30,23 +31,23 @@ function RouterSwitch(props) {
   if (code && state) props.setAppState({ LoggedIn: true });
 
   return <Switch>
-    <Route path='/UMX-DX/'>
+    <Route path='/'>
       <Main 
         LoggedIn={props.LoggedIn}
         Authorized={props.Authorized}
         SetAppState={props.SetAppState}
       />
     </Route>
-    <Route path="/UMX-DX/launch-patient">
+    <Route path="/launch-patient">
       <LaunchPatient />
     </Route>
-    <Route path="/UMX-DX/patient">
+    <Route path="/patient">
       <Patient />
     </Route>
-    <Route path="/UMX-DX/launch-provider">
+    <Route path="/launch-provider">
       <LaunchProvider />
     </Route>
-    <Route path="/UMX-DX/provider">
+    <Route path="/provider">
       <Provider />
     </Route>
     {/* <Route>
@@ -76,7 +77,7 @@ export default class App extends React.Component {
     } = this.state;
 
     return <div className="App">
-      <Router>
+      <Router basename="/UMX-DX">
         <Header 
           LoggedIn={LoggedIn}
         />
@@ -88,4 +89,4 @@ export default class App extends React.Component {
       </Router>
     </div>
   }
-}
+};

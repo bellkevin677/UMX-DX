@@ -24,6 +24,10 @@
   text-decoration: unset;
 }
 
+.Header-Link-Selected {
+  color: silver;
+}
+
 .Header-Link:hover {
   color: #AF6FC3;
 }
