@@ -11,7 +11,6 @@ import LaunchPatient from './Component/Launch/LaunchPatient';
 import Patient from './Component/Page/Patient';
 import LaunchProvider from './Component/Launch/LaunchProvider';
 import Provider from './Component/Page/Provider';
-import Events from './Events';
 import './App.css';
 
 function UseQuery() {
@@ -28,10 +27,7 @@ function RouterSwitch(props) {
     } else if (entry[1] === 'state') state = true;
   });
 
-  if (code && state) {
-    props.setAppState({ LoggedIn: true })
-    Events.patient.ready();
-  }
+  if (code && state) props.setAppState({ LoggedIn: true });
 
   return <Switch>
     <Route path='/UMX-DX/'>
