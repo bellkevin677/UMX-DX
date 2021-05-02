@@ -3,16 +3,16 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useLocation,
-  withRouter
+  useLocation
 } from 'react-router-dom';
 import Header from './Component/Header';
 import Main from './Component/Main';
 import LaunchPatient from './Component/Launch/LaunchPatient';
 import Patient from './Component/Page/Patient';
-import LaunchProvider from './Component/Launch/LaunchProvider';
-import Provider from './Component/Page/Provider';
+// import LaunchProvider from './Component/Launch/LaunchProvider';
+// import Provider from './Component/Page/Provider';
 import './App.css';
+import Events from './Events';
 
 function UseQuery() {
     return new URLSearchParams(useLocation().search);
@@ -28,7 +28,10 @@ function RouterSwitch(props) {
     } else if (entry[1] === 'state') state = true;
   });
 
-  if (code && state) props.setAppState({ LoggedIn: true });
+  if (code && state) {
+    Events.patient.ready();
+    props.setAppState({ LoggedIn: true });
+  }
 
   return <Switch>
     <Route exact path='/'>
@@ -44,14 +47,11 @@ function RouterSwitch(props) {
     <Route path="/patient">
       <Patient />
     </Route>
-    <Route path="/launch-provider">
+    {/* <Route path="/launch-provider">
       <LaunchProvider />
     </Route>
     <Route path="/provider">
       <Provider />
-    </Route>
-    {/* <Route>
-      <NoMatch /> 404 Page
     </Route> */}
   </Switch>
 }
