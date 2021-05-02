@@ -52,7 +52,8 @@ function RouterSwitch(props) {
       <LaunchProvider />
     </Route> */}
     <Route path="/account">
-      <Account />
+      <Account 
+        Patient={props.Patient}/>
     </Route>
   </Switch>
 }
@@ -87,17 +88,22 @@ export default class App extends React.Component {
       Patient
     } = this.state;
 
-    if (Patient !== null) console.log('Patient:', Patient);
+    if (Patient !== null) console.log("Patient:", Patient);
 
     return <div className="App">
       <Router basename="/UMX-DX">
-        <Header 
-          LoggedIn={LoggedIn}
-        />
+        {Loading ? (
+          <header className="App-Header"></header>
+        ) : (
+          <Header 
+            LoggedIn={LoggedIn}
+          />
+        )}
         <RouterSwitch 
           Loading={Loading}
           LoggedIn={LoggedIn}
           Authorized={Authorized}
+          Patient={Patient}
           SetAppState={this.setAppState}
         />
       </Router>

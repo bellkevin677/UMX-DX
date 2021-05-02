@@ -6,7 +6,6 @@ const Header = (props) => {
         <NavLink 
             to="/" 
             className="Header-Link"
-            activeClassName="Header-Link-Selected"
         >UMX-DX App</NavLink>
         {props.LoggedIn ? (
             <div className="Header-Navbar">
@@ -30,7 +29,7 @@ const Header = (props) => {
                 >Provider</NavLink> */}
             </div>
         )}
-    </header>;
+    </header>
 };
 
 export default Header;
