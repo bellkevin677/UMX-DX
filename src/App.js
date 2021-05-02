@@ -54,6 +54,7 @@ export default class App extends React.Component {
     this.state = {
       LoggedIn: false,
       Authorized: false,
+      Patient: {}
     }
     this.setAppState = this.setAppState.bind(this);
   }
@@ -68,7 +69,11 @@ export default class App extends React.Component {
       Authorized
     } = this.state;
 
-    Events.patient.ready();
+    Events.patient.ready()
+      .then(res => {
+        console.log(res);
+        this.setState({ Patient: res });
+      });
 
     return <div className="App">
       <Router basename="/UMX-DX">

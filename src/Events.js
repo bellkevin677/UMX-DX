@@ -15,9 +15,9 @@ Events.patient.launch = (props) => {
 }
 
 Events.patient.ready = (props) => {
-    FHIR.oauth2.ready()
+    return FHIR.oauth2.ready()
         .then(client => client.request("Patient"))
-        .then(console.log)
+        .then(res => { return res })
         .catch(console.error);
 }
 
@@ -35,7 +35,7 @@ Events.provider.launch = (props) => {
 Events.provider.ready = (props) => {
     FHIR.oauth2.ready()
         .then(client => client.request("Provider"))
-        .then(console.log)
+        .then(res => { return res })
         .catch(console.error);
 }
 
