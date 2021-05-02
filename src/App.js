@@ -8,9 +8,7 @@ import {
 import Header from './Component/Header';
 import Main from './Component/Main';
 import LaunchPatient from './Component/Launch/LaunchPatient';
-import Patient from './Component/Page/Patient';
 // import LaunchProvider from './Component/Launch/LaunchProvider';
-// import Provider from './Component/Page/Provider';
 import './App.css';
 import Events from './Events';
 
@@ -44,14 +42,8 @@ function RouterSwitch(props) {
     <Route path="/launch-patient">
       <LaunchPatient />
     </Route>
-    <Route path="/patient">
-      <Patient />
-    </Route>
     {/* <Route path="/launch-provider">
       <LaunchProvider />
-    </Route>
-    <Route path="/provider">
-      <Provider />
     </Route> */}
   </Switch>
 }
