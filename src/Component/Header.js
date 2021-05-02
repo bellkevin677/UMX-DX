@@ -4,25 +4,24 @@ const Header = (props) => {
     
     return <header className="App-Header">
         <Link 
-            to="/UMX-DX/" 
+            to="/UMX-DX" 
             className="Header-Link"
         >UMX-DX App</Link>
         {props.LoggedIn ? (
             <div className="Header-Navbar">
                 <Link 
-                    to="/UMX-DX/account" 
+                    to="/UMX-DX/patient" 
                     className="Header-Link"
-                >Account</Link>
+                >Patient</Link>
                 <Link 
-                    to="/UMX-DX/" 
-                    className="Header-Link" 
-                    onClick={() => { if (props.UserLogOut()) props.setAppState('loggedIn', false) }}
-                >Log Out</Link>
+                    to="/UMX-DX/provider" 
+                    className="Header-Link"
+                >Provider</Link>
             </div>
         ) : (
             <div className="Header-Navbar">
                 <Link 
-                    to="/UMX-DX/launch-patient?iss=https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d" 
+                    to="/UMX-DX/launch-patient" 
                     className="Header-Link"
                 >Patient</Link>
                 <Link 
@@ -30,7 +29,7 @@ const Header = (props) => {
                     className="Header-Link"
                 >Provider</Link>
             </div>
-        ) } 
+        )}
     </header>;
 };
 
