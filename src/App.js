@@ -19,6 +19,7 @@ function UseQuery() {
 function RouterSwitch(props) {
   let code = false, state = false;
   const Query = [...UseQuery().entries()];
+  console.log(Query);
 
   Query.forEach(entry => {
     if (entry[1] === 'code') {
@@ -27,7 +28,6 @@ function RouterSwitch(props) {
   });
 
   if (code && state) {
-    Events.patient.ready();
     props.setAppState({ LoggedIn: true });
   }
 
@@ -67,6 +67,8 @@ export default class App extends React.Component {
       LoggedIn,
       Authorized
     } = this.state;
+
+    Events.patient.ready();
 
     return <div className="App">
       <Router basename="/UMX-DX">
