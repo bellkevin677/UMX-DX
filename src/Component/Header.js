@@ -11,15 +11,10 @@ const Header = (props) => {
         {props.LoggedIn ? (
             <div className="Header-Navbar">
                 <NavLink 
-                    to="/patient" 
+                    to="/account" 
                     className="Header-Link"
                     activeClassName="Header-Link-Selected"
-                >Patient</NavLink>
-                {/* <NavLink 
-                    to="/provider" 
-                    className="Header-Link"
-                    activeClassName="Header-Link-Selected"
-                >Provider</NavLink> */}
+                >Account</NavLink>
             </div>
         ) : (
             <div className="Header-Navbar">

@@ -14,11 +14,14 @@ Events.patient.launch = (props) => {
     }).catch(console.error);
 }
 
-Events.patient.ready = (props) => {
-    return FHIR.oauth2.ready()
+Events.patient.ready = (setAppState) => {
+    FHIR.oauth2.ready()
         .then(client => client.request("Patient"))
-        .then(res => { return res })
-        .catch(console.error);
+        .then(res =>  setAppState({ Loading: false, Patient: res, LoggedIn: true, Authorized: true }))
+        .catch(err => {
+            console.log(err);
+            setAppState({ Loading: false });
+        });
 }
 
 // Provider events
@@ -32,11 +35,14 @@ Events.provider.launch = (props) => {
     }).then(console.log).catch(console.error);
 }
 
-Events.provider.ready = (props) => {
+Events.provider.ready = (setAppState) => {
     FHIR.oauth2.ready()
         .then(client => client.request("Provider"))
-        .then(res => { return res })
-        .catch(console.error);
+        .then(res =>  setAppState({ Loading: false, Patient: res, LoggedIn: true }))
+        .catch(err => {
+            console.log(err);
+            setAppState({ Loading: false });
+        });
 }
 
 export default Events;

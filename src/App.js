@@ -19,7 +19,6 @@ function UseQuery() {
 function RouterSwitch(props) {
   let code = false, state = false;
   const Query = [...UseQuery().entries()];
-  console.log(Query);
 
   Query.forEach(entry => {
     if (entry[1] === 'code') {
@@ -33,11 +32,17 @@ function RouterSwitch(props) {
 
   return <Switch>
     <Route exact path='/'>
-      <Main 
-        LoggedIn={props.LoggedIn}
-        Authorized={props.Authorized}
-        SetAppState={props.SetAppState}
-      />
+      {props.Loading ? (
+        <div className="App-Main">
+          <h1>Please wait...</h1>
+        </div>
+      ) : (
+        <Main 
+          LoggedIn={props.LoggedIn}
+          Authorized={props.Authorized}
+          SetAppState={props.SetAppState}
+        />
+      )}
     </Route>
     <Route path="/launch-patient">
       <LaunchPatient />
@@ -45,6 +50,9 @@ function RouterSwitch(props) {
     {/* <Route path="/launch-provider">
       <LaunchProvider />
     </Route> */}
+    <Route path="/account">
+
+    </Route>
   </Switch>
 }
 
@@ -52,9 +60,11 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      Loading: false,
       LoggedIn: false,
       Authorized: false,
-      Patient: {}
+      Patient: null,
+      Provider: null
     }
     this.setAppState = this.setAppState.bind(this);
   }
@@ -63,18 +73,20 @@ export default class App extends React.Component {
     this.setState(event);
   }
 
+  componentDidMount() {
+    Events.patient.ready(this.setAppState);
+    this.setState({ Loading: true });
+  }
+
   render() {
     const {
+      Loading,
       LoggedIn,
-      Authorized
+      Authorized,
+      Patient
     } = this.state;
 
-    Events.patient.ready()
-      .then(res => {
-        if (!res) return
-        console.log(res);
-        this.setState({ Patient: res });
-      });
+    if (Patient !== null) console.log('Patient:', Patient);
 
     return <div className="App">
       <Router basename="/UMX-DX">
@@ -82,6 +94,7 @@ export default class App extends React.Component {
           LoggedIn={LoggedIn}
         />
         <RouterSwitch 
+          Loading={Loading}
           LoggedIn={LoggedIn}
           Authorized={Authorized}
           SetAppState={this.setAppState}
