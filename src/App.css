@@ -3,7 +3,7 @@
   height: 100vh;
 }
 
-.App-Main, .App-Account {
+.App-Main {
   margin: 0 15vw;
 }
 
@@ -25,42 +25,5 @@
 }
 
 .Header-Link:hover {
-  color: #AF6FC3;
-}
-
-.Main-LogIn {
-  margin: 80px auto 0;
-  padding: 20px;
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid slategray;
-  border-radius: 5px;
-}
-
-.LogIn-Text, .LogIn-Btn {
-  padding: 5px 8px;
-  font-size: 1.25em;
-  border: 1px solid silver;
-  border-radius: 5px;
-}
-
-.LogIn-Text {
-  width: 100%;
-  margin-bottom: 8px;
-}
-
-.LogIn-Text:focus {
-  border-color: #AF6FC3;
-  border-radius: 10px;
-}
-
-.LogIn-Btn {
-  width: 100px;
-}
-
-.LogIn-Btn:hover {
   color: #AF6FC3;
 }

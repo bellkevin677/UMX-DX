@@ -17,7 +17,7 @@ export default class App extends React.Component {
         Authorized
     } = this.props;
 
-    return <div className="App">
+    return <div className="App-Main">
       {LoggedIn ? (
           Authorized ? (
               <h1>Authorized</h1>
