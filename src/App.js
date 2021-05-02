@@ -34,7 +34,7 @@ function RouterSwitch(props) {
   }
 
   return <Switch>
-    <Route path='/UMX-DX'>
+    <Route path='/UMX-DX/'>
       <Main 
         LoggedIn={props.LoggedIn}
         Authorized={props.Authorized}

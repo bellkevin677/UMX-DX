@@ -4,7 +4,7 @@ const Header = (props) => {
     
     return <header className="App-Header">
         <Link 
-            to="/UMX-DX" 
+            to="/UMX-DX/" 
             className="Header-Link"
         >UMX-DX App</Link>
         {props.LoggedIn ? (
