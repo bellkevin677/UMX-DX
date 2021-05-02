@@ -71,6 +71,7 @@ export default class App extends React.Component {
 
     Events.patient.ready()
       .then(res => {
+        if (!res) return
         console.log(res);
         this.setState({ Patient: res });
       });
