@@ -8,7 +8,7 @@ const Table = (props) => {
     return <table>
         <thead>
             <tr>
-                <th>{props.Title.name}</th>
+                <th>{props.Title}</th>
             </tr>
             <tr>
                 {keyNames.map((key, i) => {
@@ -20,12 +20,13 @@ const Table = (props) => {
             {props.Array.map((row, index) => {
                 return <tr key={index}>
                     {keyNames.map((key, i) => {
-                        if (typeof row[key] === "object") {
-                            return <Table
-                                Title={Title(key)}
-                                Array={row[key]}
-                            />
-                        } else if (typeof row[key] === "array") {
+                        // if (typeof row[key] === "object") {
+                        //     return <Table
+                        //         Title={Title(key)}
+                        //         Array={row[key]}
+                        //     />
+                        // } else 
+                        if (typeof row[key] === "array") {
                             return <td key={i}>{row[key].join(" ")}</td>
                         } else if (typeof row[key] === "string") {
                             return <td key={i}>{row[key]}</td>
