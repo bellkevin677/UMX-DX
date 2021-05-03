@@ -20,13 +20,26 @@ const Table = (props) => {
             {props.Array.map((row, index) => {
                 return <tr key={index}>
                     {keyNames.map((key, i) => {
-                        console.log(row[key]);
-                        if (typeof row[key] === "string") return <td key={i}>{row[key]}</td>
+                        if (typeof row[key] === "object") {
+                            return <Table
+                                Title={Title(key)}
+                                Array={row[key]}
+                            />
+                        } else if (typeof row[key] === "array") {
+                            return <td key={i}>{row[key].join(" ")}</td>
+                        } else if (typeof row[key] === "string") {
+                            return <td key={i}>{row[key]}</td>
+                        }
                     })}
                 </tr>
             })}
         </tbody>
     </table>
+}
+
+function Title(key) {
+    let title = key.charAt(0).toUpperCase() + key.slice(1);
+    return title.replace(/([A-Z])/g, ' $1').trim()
 }
 
 export default Table
