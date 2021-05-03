@@ -40,7 +40,7 @@ function RouterSwitch(props) {
       ) : (
         <Main 
           LoggedIn={props.LoggedIn}
-          Authorized={props.Authorized}
+          Cerner={props.Cerner}
           SetAppState={props.SetAppState}
         />
       )}
@@ -53,7 +53,7 @@ function RouterSwitch(props) {
     </Route> */}
     <Route path="/account">
       <Account 
-        Patient={props.Patient}/>
+        Cerner={props.Cerner}/>
     </Route>
   </Switch>
 }
@@ -64,9 +64,7 @@ export default class App extends React.Component {
     this.state = {
       Loading: false,
       LoggedIn: false,
-      Authorized: false,
-      Patient: null,
-      Provider: null
+      Cerner: null
     }
     this.setAppState = this.setAppState.bind(this);
   }
@@ -84,11 +82,10 @@ export default class App extends React.Component {
     const {
       Loading,
       LoggedIn,
-      Authorized,
-      Patient
+      Cerner,
     } = this.state;
 
-    if (Patient !== null) console.log("Patient:", Patient);
+    if (Cerner !== null) console.log("Cerner:", Cerner);
 
     return <div className="App">
       <Router basename="/UMX-DX">
@@ -102,8 +99,7 @@ export default class App extends React.Component {
         <RouterSwitch 
           Loading={Loading}
           LoggedIn={LoggedIn}
-          Authorized={Authorized}
-          Patient={Patient}
+          Cerner={Cerner}
           SetAppState={this.setAppState}
         />
       </Router>

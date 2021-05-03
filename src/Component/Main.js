@@ -15,12 +15,12 @@ class Main extends React.Component {
   render() {
     const {
         LoggedIn,
-        Authorized
+        Cerner
     } = this.props;
 
     return <div className="App-Main">
       {LoggedIn ? (
-          Authorized ? (
+          Cerner ? (
               <h1>Authorized</h1>
           ) : (
               <h1>Unauthorized</h1>

@@ -16,8 +16,11 @@ Events.patient.launch = (props) => {
 
 Events.patient.ready = (setAppState) => {
     FHIR.oauth2.ready()
-        .then(client => client.request("Patient"))
-        .then(res =>  setAppState({ Loading: false, Patient: res, LoggedIn: true, Authorized: true }))
+        .then(client => {
+            console.log(client);
+            client.request("Patient");
+        })
+        .then(res =>  setAppState({ Loading: false, LoggedIn: true, Cerner: res }))
         .catch(err => {
             console.log(err);
             setAppState({ Loading: false });
@@ -37,8 +40,11 @@ Events.provider.launch = (props) => {
 
 Events.provider.ready = (setAppState) => {
     FHIR.oauth2.ready()
-        .then(client => client.request("Provider"))
-        .then(res =>  setAppState({ Loading: false, Patient: res, LoggedIn: true }))
+        .then(client => {
+            console.log(client);
+            client.request("Provider");
+        })
+        .then(res =>  setAppState({ Loading: false, LoggedIn: true, Cerner: res }))
         .catch(err => {
             console.log(err);
             setAppState({ Loading: false });
