@@ -7,7 +7,7 @@ const Header = (props) => {
             to="/" 
             className="Header-Link"
         >UMX-DX App</NavLink>
-        {props.LoggedIn ? (
+        {props.Cerner ? (
             <div className="Header-Navbar">
                 <NavLink 
                     to="/account" 

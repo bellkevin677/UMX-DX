@@ -2,8 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  useLocation
+  Route
 } from 'react-router-dom';
 import Header from './Component/Header';
 import Main from './Component/Main';
@@ -13,23 +12,7 @@ import Account from './Component/Account';
 import './App.css';
 import Events from './Events';
 
-function UseQuery() {
-    return new URLSearchParams(useLocation().search);
-}
-
 function RouterSwitch(props) {
-  let code = false, state = false;
-  const Query = [...UseQuery().entries()];
-
-  Query.forEach(entry => {
-    if (entry[1] === 'code') {
-      code = true;
-    } else if (entry[1] === 'state') state = true;
-  });
-
-  if (code && state) {
-    props.setAppState({ LoggedIn: true });
-  }
 
   return <Switch>
     <Route exact path='/'>
@@ -39,7 +22,6 @@ function RouterSwitch(props) {
         </div>
       ) : (
         <Main 
-          LoggedIn={props.LoggedIn}
           Cerner={props.Cerner}
           SetAppState={props.SetAppState}
         />
@@ -63,7 +45,6 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       Loading: false,
-      LoggedIn: false,
       Cerner: null
     }
     this.setAppState = this.setAppState.bind(this);
@@ -81,11 +62,10 @@ export default class App extends React.Component {
   render() {
     const {
       Loading,
-      LoggedIn,
-      Cerner,
+      Cerner
     } = this.state;
 
-    if (Cerner !== null) console.log("Cerner:", Cerner);
+    if (Cerner) console.log("Cerner:", Cerner);
 
     return <div className="App">
       <Router basename="/UMX-DX">
@@ -93,12 +73,11 @@ export default class App extends React.Component {
           <header className="App-Header"></header>
         ) : (
           <Header 
-            LoggedIn={LoggedIn}
+            Cerner={Cerner}
           />
         )}
         <RouterSwitch 
           Loading={Loading}
-          LoggedIn={LoggedIn}
           Cerner={Cerner}
           SetAppState={this.setAppState}
         />

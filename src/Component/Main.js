@@ -14,20 +14,15 @@ class Main extends React.Component {
 
   render() {
     const {
-        LoggedIn,
-        Cerner
+      Cerner
     } = this.props;
 
     return <div className="App-Main">
-      {LoggedIn ? (
-          Cerner ? (
-              <h1>Authorized</h1>
-          ) : (
-              <h1>Unauthorized</h1>
-          )
-      ) : (
+      {Cerner ? (
+          <h1>Authorized</h1>
+        ) : (
           <h1>Please select account type to Log-In</h1>
-      )}
+        )}
     </div>
   }
 }
