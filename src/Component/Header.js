@@ -13,7 +13,7 @@ const Header = (props) => {
                     to="/account" 
                     className="Header-Link"
                     activeClassName="Header-Link-Selected"
-                >Account</NavLink>
+                >{props.Cerner.entry[0].resource.name[0].text}</NavLink>
             </div>
         ) : (
             <div className="Header-Navbar">

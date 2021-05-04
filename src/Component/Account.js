@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from './Table';
+import Table from './Table/Table';
 
 export default class Account extends React.Component {
     constructor(props) {
@@ -13,7 +13,6 @@ export default class Account extends React.Component {
             account = Cerner.entry[0];
 
         return <div className="App-Account">
-            <h1>You are logged in as {account.resource.name[0].text}.</h1>
             {account.resource.telecom.length > 0 ? (
                 <Table 
                     Title="Communication"

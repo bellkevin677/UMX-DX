@@ -55,8 +55,10 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    Events.patient.ready(this.setAppState);
-    this.setState({ Loading: true });
+    if (!this.state.Cerner) {
+      Events.patient.ready(this.setAppState);
+      this.setState({ Loading: true });
+    }
   }
 
   render() {

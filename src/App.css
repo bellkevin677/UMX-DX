@@ -1,9 +1,9 @@
 .App {
   text-align: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-.App-Main {
+.App-Main, .App-Account {
   margin: 0 15vw;
 }
 
@@ -31,3 +31,7 @@
 .Header-Link:hover {
   color: #AF6FC3;
 }
+
+/* .Table {}
+.Table-Head, .Table-Body{}
+.Table-Head-Row, .Table-Body-Row{} */
