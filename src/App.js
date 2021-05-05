@@ -30,9 +30,9 @@ function RouterSwitch(props) {
     <Route path="/launch-patient">
       <LaunchPatient />
     </Route>
-    {/* <Route path="/launch-provider">
+    <Route path="/launch-provider">
       <LaunchProvider />
-    </Route> */}
+    </Route>
     <Route path="/account">
       <Account 
         Cerner={props.Cerner}/>
@@ -57,6 +57,7 @@ export default class App extends React.Component {
   componentDidMount() {
     if (!this.state.Cerner) {
       Events.patient.ready(this.setAppState);
+      Events.provider.ready(this.setAppState);
       this.setState({ Loading: true });
     }
   }

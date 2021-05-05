@@ -11,11 +11,11 @@ export default class Table extends React.Component {
     render() {
         const {
             Title,
-            Array
+            Data
         } = this.props,
             keyNames = [];
 
-        Array.map((row) => {
+        Data.map((row) => {
             const allKeys = Object.keys(row);
             allKeys.forEach(key => {
                 switch(true) {
@@ -36,35 +36,39 @@ export default class Table extends React.Component {
             <thead className="Table-Head">
                 {Title ? (
                     <tr>
-                        <th>{this.FormatTitle(Title)}</th>
+                        <th className="Table-Title">{this.FormatTitle(Title)}</th>
                     </tr>
                 ) : null}
                 <tr className="Table-Head-Row">
                     {keyNames.map((key, i) => {
                         switch(true) {
+                            case (key === "display"):
+                                return <th key={i} className="Table-Head-Data"></th>
                             case (!isNaN(key)):
-                                return <th key={i}>{`${parseInt(key) + 1}.)`}</th>
+                                return <th key={i} className="Table-Head-Data">{`${parseInt(key) + 1}.)`}</th>
                             default:
-                                return <th key={i}>{this.FormatTitle(key)}</th>
+                                return <th key={i} className="Table-Head-Data">{this.FormatTitle(key)}</th>
                         }
                     })}
                 </tr>
             </thead>
             <tbody className="Table-Body">
-                {Array.map((row, index) => {
+                {Data.map((row, index) => {
                     return <tr key={index} className="Table-Body-Row">
                         {keyNames.map((key, i) => {
                             switch(true) {
+                                case (key === "display"):
+                                    return <td key={i} className="Table-Body-Data">{`${index + 1}.) ${row[key]}`}</td>
                                 case (key === "relationship"):
-                                    return <td key={i}>{row[key][0].text}</td>
+                                    return <td key={i} className="Table-Body-Data">{row[key][0].text}</td>
                                 case (key === "name"):
                                 case (key === "address"):
-                                    return <td key={i}>{row[key].text}</td>
+                                    return <td key={i} className="Table-Body-Data">{row[key].text}</td>
                                 case (typeof row[key] === "string"):
-                                    return <td key={i}>{row[key]}</td>
+                                    return <td key={i} className="Table-Body-Data">{row[key]}</td>
                                 case (typeof row[key] === "object"):
-                                    return <td key={i}>
-                                        <MiniTable Data={[row[key]]}/>
+                                    return <td key={i} className="Table-Body-Data">
+                                        <MiniTable Data={row[key]}/>
                                     </td>
                                 default:
                                     return

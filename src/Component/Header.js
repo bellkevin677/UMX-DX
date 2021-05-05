@@ -22,11 +22,11 @@ const Header = (props) => {
                     className="Header-Link"
                     activeClassName="Header-Link-Selected"
                 >Patient</NavLink>
-                {/* <NavLink 
+                <NavLink 
                     to="/launch-provider" 
                     className="Header-Link"
                     activeClassName="Header-Link-Selected"
-                >Provider</NavLink> */}
+                >Provider</NavLink>
             </div>
         )}
     </header>

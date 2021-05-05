@@ -13,10 +13,7 @@ export default class Table extends React.Component {
         } = this.props,
             keyNames = [];
 
-        console.log(Data);
-
         Data.map((row) => {
-            console.log(row);
             const allKeys = Object.keys(row);
             allKeys.forEach(key => {
                 switch(true) {
@@ -34,7 +31,7 @@ export default class Table extends React.Component {
         });
 
         return <table className="MiniTable">
-            <thead className="MiniTable-Head">
+            {/* <thead className="MiniTable-Head">
                 <tr className="MiniTable-Head-Row">
                     {keyNames.map((key, i) => {
                         switch(true) {
@@ -45,7 +42,7 @@ export default class Table extends React.Component {
                         }
                     })}
                 </tr>
-            </thead>
+            </thead> */}
             <tbody className="MiniTable-Body">
                 {Data.map((row, index) => {
                     return <tr key={index} className="MiniTable-Body-Row">
