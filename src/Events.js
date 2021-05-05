@@ -17,11 +17,8 @@ Events.patient.launch = (props) => {
 Events.patient.ready = (setAppState) => {
     FHIR.oauth2.ready()
         .then(client => client.request("Patient"))
-        .then(res =>  setAppState({ Loading: false, Cerner: res }))
-        .catch(err => {
-            console.log(err);
-            setAppState({ Loading: false });
-        });
+        .then(res => setAppState({ Loading: false, Cerner: res }))
+        .catch(() => setAppState({ Loading: false }));
 }
 
 // Provider events
@@ -39,9 +36,25 @@ Events.provider.ready = (setAppState) => {
     FHIR.oauth2.ready()
         .then(client => client.request("Provider"))
         .then(res =>  setAppState({ Loading: false, Cerner: res }))
-        .catch(err => {
+        .catch(() => setAppState({ Loading: false }));
+}
+
+// Client Events
+Events.client = {};
+
+Events.client.refresh = (setComponentState) => {
+
+}
+
+Events.client.request = (params, setComponentState) => {
+    const client = FHIR.client('https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d');
+    client.patient.request(params)
+        .then(res => {
+            console.log(res);
+            setComponentState({ Loading: false });
+        }).catch(err => {
             console.log(err);
-            setAppState({ Loading: false });
+            setComponentState({ Loading: false });
         });
 }
 

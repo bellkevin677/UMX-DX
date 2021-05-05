@@ -15,7 +15,7 @@ export default class Table extends React.Component {
 
         Data.map((row) => {
             const allKeys = Object.keys(row);
-            allKeys.forEach(key => {
+            return allKeys.forEach(key => {
                 switch(true) {
                     case (key === "given"):
                     case (key === "family"):
@@ -56,7 +56,7 @@ export default class Table extends React.Component {
                                 case (typeof row[key] === "string"):
                                     return <td key={i}>{row[key]}</td>
                                 default:
-                                    return
+                                    return null
                             }
                         })}
                     </tr>

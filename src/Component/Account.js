@@ -2,9 +2,9 @@ import React from 'react';
 import Table from './Table/Table';
 
 export default class Account extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     render() {
         const {

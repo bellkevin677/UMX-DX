@@ -3,8 +3,15 @@
   min-height: 100vh;
 }
 
-.App-Main, .App-Account {
+.App-Account, .App-Launch {
   margin: 0 15vw;
+}
+
+iframe {
+  width: 100%;
+  min-height: 50vh;
+  border: 2px solid silver;
+  border-radius: 8px;
 }
 
 /* Header Styling */
@@ -12,6 +19,7 @@
   padding: 50px 18vw 10px;
   display: flex;
   justify-content: space-between;
+  border-bottom: 2px solid goldenrod;
 }
 
 .Header-Navbar {
@@ -26,11 +34,30 @@
 }
 
 .Header-Link-Selected {
-  color: silver;
+  color: dimgray;
 }
 
 .Header-Link:hover {
-  color: #AF6FC3;
+  color: goldenrod;
+}
+
+/* Main Styling */
+
+.Main-Nav {
+  margin: 0;
+  padding: 0 20vw;
+  display: flex;
+  background-color: #FAFAFA;
+}
+
+.Main-Nav-Link {
+  padding: 5px 10px;
+  color: darkblue;
+  list-style: none;
+}
+
+.Main-Nav-Link:hover {
+  color: dimgray;
 }
 
 /* Account Styling */
