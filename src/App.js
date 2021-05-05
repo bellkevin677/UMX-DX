@@ -7,7 +7,7 @@ import {
 import Header from './Component/Header';
 import Main from './Component/Main';
 import LaunchPatient from './Component/Launch/LaunchPatient';
-// import LaunchProvider from './Component/Launch/LaunchProvider';
+import LaunchProvider from './Component/Launch/LaunchProvider';
 import Account from './Component/Account';
 import './App.css';
 import Events from './Events';
