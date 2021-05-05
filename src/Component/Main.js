@@ -1,11 +1,10 @@
 import React from 'react';
-import Events from '../Events';
 
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Loading: true,
+      Loading: false,
       Display: "Observation",
       Data: null
     }
@@ -14,14 +13,6 @@ export default class Main extends React.Component {
 
   setMainState(event) {
     this.setState(event);
-  }
-
-  componentDidMount() {
-    const { Cerner } = this.props,
-      { Display, Data } = this.state;
-    if (Cerner && !Data) {
-      Events.client.request(Display, this.setMainState);
-    }
   }
 
   render() {

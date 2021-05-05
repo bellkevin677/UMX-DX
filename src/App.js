@@ -12,39 +12,12 @@ import Account from './Component/Account';
 import './App.css';
 import Events from './Events';
 
-function RouterSwitch(props) {
-
-  return <Switch>
-    <Route exact path='/'>
-      {props.Loading ? (
-        <div className="App-Main">
-          <h1>Please wait...</h1>
-        </div>
-      ) : (
-        <Main 
-          Cerner={props.Cerner}
-          SetAppState={props.SetAppState}
-        />
-      )}
-    </Route>
-    <Route path="/launch-patient">
-      <LaunchPatient />
-    </Route>
-    <Route path="/launch-provider">
-      <LaunchProvider />
-    </Route>
-    <Route path="/account">
-      <Account 
-        Cerner={props.Cerner}/>
-    </Route>
-  </Switch>
-}
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       Loading: false,
+      Oauth2: null,
       Cerner: null
     }
     this.setAppState = this.setAppState.bind(this);
@@ -65,9 +38,11 @@ export default class App extends React.Component {
   render() {
     const {
       Loading,
+      Oauth2,
       Cerner
     } = this.state;
 
+    if (Oauth2) console.log("Oauth2:", Oauth2);
     if (Cerner) console.log("Cerner:", Cerner);
 
     return <div className="App">
@@ -79,11 +54,30 @@ export default class App extends React.Component {
             Cerner={Cerner}
           />
         )}
-        <RouterSwitch 
-          Loading={Loading}
-          Cerner={Cerner}
-          SetAppState={this.setAppState}
-        />
+        <Switch>
+          <Route exact path='/'>
+            {Loading ? (
+              <div className="App-Main">
+                <h1>Please wait...</h1>
+              </div>
+            ) : (
+              <Main 
+                Cerner={Cerner}
+                SetAppState={this.setAppState}
+              />
+            )}
+          </Route>
+          <Route path="/launch-patient">
+            <LaunchPatient />
+          </Route>
+          <Route path="/launch-provider">
+            <LaunchProvider />
+          </Route>
+          <Route path="/account">
+            <Account 
+              Cerner={Cerner}/>
+          </Route>
+        </Switch>
       </Router>
     </div>
   }

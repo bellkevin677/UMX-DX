@@ -8,7 +8,7 @@ Events.patient = {};
 Events.patient.launch = (props) => {
     FHIR.oauth2.authorize({
         client_id: "efef2e22-0d52-4bfa-ab53-b44456625f2a",
-        scope: "user/AllergyIntolerance.read user/CarePlan.read user/Condition.read user/Observation.read user/Patient.read user/RelatedPerson.read launch/patient online_access openid profile",
+        scope: "user/Patient.read user/Person.read user/Practitioner.read user/RelatedPerson.read patient/AllergyIntolerance.read patient/CarePlan.read patient/Condition.read patient/MedicationStatement.read patient/Observation.read patient/Patient.read patient/Person.read patient/RelatedPerson.read launch/patient online_access openid profile",
         iss: "https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d",
         redirectUri: "https://danielmoffitt54.github.io/UMX-DX/"
     }).catch(console.error);
@@ -16,9 +16,11 @@ Events.patient.launch = (props) => {
 
 Events.patient.ready = (setAppState) => {
     FHIR.oauth2.ready()
-        .then(client => client.request("Patient"))
-        .then(res => setAppState({ Loading: false, Cerner: res }))
-        .catch(() => setAppState({ Loading: false }));
+        .then(client => {
+            client.request("Patient")
+                .then(res => setAppState({ Loading: false, Oauth2: client, Cerner: res }))
+                .catch(() => setAppState({ Loading: false }));
+        }).catch(() => setAppState({ Loading: false }));
 }
 
 // Provider events
@@ -42,20 +44,18 @@ Events.provider.ready = (setAppState) => {
 // Client Events
 Events.client = {};
 
-Events.client.refresh = (setComponentState) => {
+Events.client.refresh = (Oauth2, setComponentState) => {
+    const client = FHIR.client(Oauth2.state);
 
+    client.refreshIfNeeded()
+        .then(console.log, console.error);
 }
 
-Events.client.request = (params, setComponentState) => {
-    const client = FHIR.client('https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d');
-    client.patient.request(params)
-        .then(res => {
-            console.log(res);
-            setComponentState({ Loading: false });
-        }).catch(err => {
-            console.log(err);
-            setComponentState({ Loading: false });
-        });
+Events.client.request = (Oauth2, setComponentState, param) => {
+    const client = FHIR.client(Oauth2.state);
+
+    client.request(param)
+        .then(console.log, console.error);
 }
 
 export default Events;
