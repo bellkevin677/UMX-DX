@@ -44,18 +44,19 @@ Events.provider.ready = (setAppState) => {
 // Client Events
 Events.client = {};
 
-Events.client.refresh = (Oauth2, setComponentState) => {
-    const client = FHIR.client(Oauth2.state);
+// Events.client.refresh = (Oauth2, setComponentState) => {
+//     const client = FHIR.client(Oauth2.state);
 
-    client.refreshIfNeeded()
-        .then(console.log, console.error);
-}
+//     client.refreshIfNeeded()
+//         .then(console.log, console.error);
+// }
 
 Events.client.request = (Oauth2, setComponentState, param) => {
     const client = FHIR.client(Oauth2.state);
 
     client.request(param)
-        .then(console.log, console.error);
+        .then(res => setComponentState({ Loading: false, Data: res }))
+        .catch(() => setComponentState({ Loading: false }));
 }
 
 export default Events;

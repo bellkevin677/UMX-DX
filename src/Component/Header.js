@@ -12,7 +12,7 @@ const Header = (props) => {
                 <NavLink 
                     to="/account" 
                     className="Header-Link"
-                    activeClassName="Header-Link-Selected"
+                    activeClassName="Header-Link-Active"
                 >Account</NavLink>
             </div>
         ) : (
@@ -20,12 +20,12 @@ const Header = (props) => {
                 <NavLink 
                     to="/launch-patient" 
                     className="Header-Link"
-                    activeClassName="Header-Link-Selected"
+                    activeClassName="Header-Link-Active"
                 >Patient</NavLink>
                 <NavLink 
                     to="/launch-provider" 
                     className="Header-Link"
-                    activeClassName="Header-Link-Selected"
+                    activeClassName="Header-Link-Active"
                 >Provider</NavLink>
             </div>
         )}

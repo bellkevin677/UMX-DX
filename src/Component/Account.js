@@ -2,51 +2,84 @@ import React from 'react';
 import Table from './Table/Table';
 
 export default class Account extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    // }
+    constructor(props) {
+        super(props);
+        this.state = {
+            Loading: false
+        }
+    }
+
+    RenderTable = (Title, account) => {
+        const personalTable = [
+            {
+                account: account.resource.resourceType,
+                gender: account.resource.gender,
+                birthDate: account.resource.birthDate,
+                address: account.resource.address[0].text,
+                language: account.resource.communication[0].language.coding[0].display,
+                maritalStatus: account.resource.maritalStatus.text,
+            }
+        ];
+
+        switch(true) {
+            case (Title === "Personal"):
+                return <Table 
+                    Title={Title}
+                    Data={personalTable}
+                />
+            case (Title === "Care Provider" && account.resource.careProvider.length > 0):
+                return <Table 
+                    Title={Title}
+                    Data={account.resource.careProvider}
+                />
+            case (Title === "Communication" && account.resource.telecom.length > 0):
+                return <Table 
+                    Title={Title}
+                    Data={account.resource.telecom}
+                />
+            case (Title === "Contact" && account.resource.contact.length > 0):
+                return <Table 
+                    Title={Title}
+                    Data={account.resource.contact}
+                />
+            default:
+                return <div>
+                    <h1>An error has occured.</h1>
+                </div>
+        }
+    }
 
     render() {
         const {
-            Cerner
-        } = this.props,
-            account = Cerner.entry[0],
-            personalTable = [
-                {
-                    account: account.resource.resourceType,
-                    gender: account.resource.gender,
-                    birthDate: account.resource.birthDate,
-                    address: account.resource.address[0].text,
-                    language: account.resource.communication[0].language.coding[0].display,
-                    maritalStatus: account.resource.maritalStatus.text,
-                }
-            ];
+            Cerner,
+            AccountArray,
+            AccountIndex,
+            SetAppState
+        } = this.props, {
+            Loading
+        } = this.state,
+            account = Cerner.entry[0];
 
-        return <div className="App-Account">
-            {account.resource.address.length > 0 ? (
-                <Table 
-                    Title="Personal"
-                    Data={personalTable}
-                />
-            ) : null }
-            {account.resource.careProvider.length > 0 ? (
-                <Table 
-                    Title="Care Provider"
-                    Data={account.resource.careProvider}
-                />
-            ) : null }
-            {account.resource.telecom.length > 0 ? (
-                <Table 
-                    Title="Communication"
-                    Data={account.resource.telecom}
-                />
-            ) : null }
-            {account.resource.contact.length > 0 ? (
-                <Table 
-                    Title="Contact"
-                    Data={account.resource.contact}
-                />
-            ) : null }
-        </div>
+        return Loading ? (
+          <div className="App-Account">
+            <h1>Please wait...</h1>
+          </div>
+        ) : (
+          <div className="App-Account">
+            <ul className="Account-Nav">
+              {AccountArray.map((item, i) => {
+                if (AccountIndex === i) return <li key={i} 
+                  className="Account-Nav-Link Account-Nav-Link-Active" 
+                  onClick={() => SetAppState({ AccountIndex: i })}
+                >{item}</li>
+                return <li key={i} 
+                  className="Account-Nav-Link" 
+                  onClick={() => SetAppState({ AccountIndex: i })}
+                >{item}</li>
+              })}
+            </ul>
+            {this.RenderTable(AccountArray[AccountIndex], account)}
+          </div>
+        )
     }
 }

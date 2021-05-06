@@ -1,11 +1,11 @@
 import React from 'react';
+import Events from '../Events';
 
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       Loading: false,
-      Display: "Observation",
       Data: null
     }
     this.setMainState = this.setMainState.bind(this);
@@ -15,21 +15,28 @@ export default class Main extends React.Component {
     this.setState(event);
   }
 
+  componentDidMount() {
+    const { Oauth2 } = this.props, { Data } = this.state;
+    if (!Data && Oauth2) {
+      Events.client.request(Oauth2, this.setMainState, "Patient")
+      this.setState({ Loading: true });
+    }
+  }
+
   render() {
     const {
-      Cerner
+      Oauth2,
+      MainArray,
+      MainIndex,
+      SetAppState
     } = this.props, {
       Loading,
-      Display,
       Data
     } = this.state;
 
-    if (Data) {
-      console.log("Display:", Display);
-      console.log("Data:", Data);
-    }
+    if (Data) console.log("Data:", Data);
 
-    return Cerner ? (
+    return Oauth2 ? (
       Loading ? (
         <div className="App-Main">
           <h1>Please wait...</h1>
@@ -37,7 +44,16 @@ export default class Main extends React.Component {
       ) : (
         <div className="App-Main">
           <ul className="Main-Nav">
-            <li className="Main-Nav-Link">Observation</li>
+            {MainArray.map((item, i) => {
+              if (MainIndex === i) return <li key={i} 
+                className="Main-Nav-Link Main-Nav-Link-Active" 
+                onClick={() => SetAppState({ MainIndex: i })}
+              >{item}</li>
+              return <li key={i} 
+                className="Main-Nav-Link" 
+                onClick={() => SetAppState({ MainIndex: i })}
+              >{item}</li>
+            })}
           </ul>
           <div className="Main-Table">
           </div>

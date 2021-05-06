@@ -18,7 +18,11 @@ export default class App extends React.Component {
     this.state = {
       Loading: false,
       Oauth2: null,
-      Cerner: null
+      Cerner: null,
+      AccountArray: ["Personal", "Care Provider", "Communication", "Contact"],
+      MainArray: ["Observation", "Tab2", "Tab3"],
+      AccountIndex: 0,
+      MainIndex: 0
     }
     this.setAppState = this.setAppState.bind(this);
   }
@@ -39,7 +43,11 @@ export default class App extends React.Component {
     const {
       Loading,
       Oauth2,
-      Cerner
+      Cerner,
+      AccountArray,
+      MainArray,
+      AccountIndex,
+      MainIndex
     } = this.state;
 
     if (Oauth2) console.log("Oauth2:", Oauth2);
@@ -62,7 +70,9 @@ export default class App extends React.Component {
               </div>
             ) : (
               <Main 
-                Cerner={Cerner}
+                Oauth2={Oauth2}
+                MainArray={MainArray}
+                MainIndex={MainIndex}
                 SetAppState={this.setAppState}
               />
             )}
@@ -75,7 +85,11 @@ export default class App extends React.Component {
           </Route>
           <Route path="/account">
             <Account 
-              Cerner={Cerner}/>
+              Cerner={Cerner}
+              AccountArray={AccountArray}
+              AccountIndex={AccountIndex}
+              SetAppState={this.setAppState}
+            />
           </Route>
         </Switch>
       </Router>
