@@ -19,10 +19,12 @@ export default class App extends React.Component {
       Loading: false,
       Oauth2: null,
       Cerner: null,
-      AccountArray: ["Personal", "Care Provider", "Communication", "Contact"],
-      MainArray: ["Observation", "Tab2", "Tab3"],
+      MainArray: ["Observation", "Condition", "MedicationStatement", "AllergyIntolerance"],
+      MainIndex: 0,
+      AccountArray: ["Patient", "Person", "RelatedPerson", "CarePlan"],
       AccountIndex: 0,
-      MainIndex: 0
+      DisplayCount: 25,
+      DisplayIndex: 0
     }
     this.setAppState = this.setAppState.bind(this);
   }
@@ -32,9 +34,15 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.Cerner) {
-      Events.patient.ready(this.setAppState);
-      Events.provider.ready(this.setAppState);
+    const { Cerner, MainArray, MainIndex } = this.state;
+    if (!Cerner) {
+      Events.patient.ready({
+        SetAppState: this.setAppState, 
+        Param: MainArray[MainIndex]
+      });
+      Events.provider.ready({
+        SetAppState: this.setAppState
+      });
       this.setState({ Loading: true });
     }
   }
@@ -44,22 +52,19 @@ export default class App extends React.Component {
       Loading,
       Oauth2,
       Cerner,
-      AccountArray,
       MainArray,
+      MainIndex,
+      AccountArray,
       AccountIndex,
-      MainIndex
+      DisplayCount,
+      DisplayIndex
     } = this.state;
-
-    if (Oauth2) console.log("Oauth2:", Oauth2);
-    if (Cerner) console.log("Cerner:", Cerner);
 
     return <div className="App">
       <Router basename="/UMX-DX">
-        {Loading ? (
-          <header className="App-Header"></header>
-        ) : (
+        {Loading ? null : (
           <Header 
-            Cerner={Cerner}
+            Oauth2={Oauth2}
           />
         )}
         <Switch>
@@ -71,25 +76,33 @@ export default class App extends React.Component {
             ) : (
               <Main 
                 Oauth2={Oauth2}
+                Cerner={Cerner}
+                AccountArray={AccountArray}
                 MainArray={MainArray}
                 MainIndex={MainIndex}
+                DisplayCount={DisplayCount}
+                DisplayIndex={DisplayIndex}
                 SetAppState={this.setAppState}
               />
             )}
+          </Route>
+          <Route path="/account">
+            <Account 
+              Oauth2={Oauth2}
+              Cerner={Cerner}
+              MainArray={MainArray}
+              AccountArray={AccountArray}
+              AccountIndex={AccountIndex}
+              DisplayCount={DisplayCount}
+              DisplayIndex={DisplayIndex}
+              SetAppState={this.setAppState}
+            />
           </Route>
           <Route path="/launch-patient">
             <LaunchPatient />
           </Route>
           <Route path="/launch-provider">
             <LaunchProvider />
-          </Route>
-          <Route path="/account">
-            <Account 
-              Cerner={Cerner}
-              AccountArray={AccountArray}
-              AccountIndex={AccountIndex}
-              SetAppState={this.setAppState}
-            />
           </Route>
         </Switch>
       </Router>

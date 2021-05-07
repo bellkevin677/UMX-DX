@@ -14,13 +14,13 @@ Events.patient.launch = (props) => {
     }).catch(console.error);
 }
 
-Events.patient.ready = (setAppState) => {
+Events.patient.ready = (props) => {
     FHIR.oauth2.ready()
         .then(client => {
-            client.request("Patient")
-                .then(res => setAppState({ Loading: false, Oauth2: client, Cerner: res }))
-                .catch(() => setAppState({ Loading: false }));
-        }).catch(() => setAppState({ Loading: false }));
+            client.patient.request(props.Param)
+                .then(res => props.SetAppState({ Loading: false, Oauth2: client, Cerner: res }))
+                .catch(() => props.SetAppState({ Loading: false }));
+        }).catch(() => props.SetAppState({ Loading: false }));
 }
 
 // Provider events
@@ -34,11 +34,11 @@ Events.provider.launch = (props) => {
     }).then(console.log).catch(console.error);
 }
 
-Events.provider.ready = (setAppState) => {
+Events.provider.ready = (props) => {
     FHIR.oauth2.ready()
         .then(client => client.request("Provider"))
-        .then(res =>  setAppState({ Loading: false, Cerner: res }))
-        .catch(() => setAppState({ Loading: false }));
+        .then(res =>  props.SetAppState({ Loading: false, Cerner: res }))
+        .catch(() => props.SetAppState({ Loading: false }));
 }
 
 // Client Events
@@ -51,12 +51,21 @@ Events.client = {};
 //         .then(console.log, console.error);
 // }
 
-Events.client.request = (Oauth2, setComponentState, param) => {
-    const client = FHIR.client(Oauth2.state);
+Events.client.request = (props) => {
+    const client = FHIR.client(props.Oauth2.state);
 
-    client.request(param)
-        .then(res => setComponentState({ Loading: false, Data: res }))
-        .catch(() => setComponentState({ Loading: false }));
+    client.patient.request(props.Page)
+        .then(res => props.SetAppState({ Cerner: res, [props.State]: props.Value, DisplayIndex: 0 }))
+        .catch(console.error);
+}
+
+Events.client.routeChange = (props) => {
+
+    let newPage = false;
+    props.Cerner.entry.forEach(entry => {
+        if (props.PrevScope.includes(entry.resource.resourceType)) newPage = true;
+    });
+    if (newPage) Events.client.request(props);
 }
 
 export default Events;

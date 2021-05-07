@@ -3,12 +3,12 @@
   min-height: 100vh;
 }
 
-iframe {
+/* iframe {
   width: 100%;
   min-height: 50vh;
   border: 2px solid silver;
   border-radius: 8px;
-}
+} */
 
 /* Header Styling */
 .App-Header {
@@ -39,53 +39,57 @@ iframe {
 
 /* Main & Account Styling */
 
-.Main-Nav, .Account-Nav {
+.Subheader-Nav, .Footer-Nav {
   margin: 0;
   padding: 0 20vw;
   display: flex;
   background-color: #FAFAFA;
 }
 
-.Main-Nav-Link, .Account-Nav-Link {
+.Subheader-Nav-Link, .Footer-Nav-Link {
   padding: 5px 10px;
   color: darkblue;
   list-style: none;
 }
 
-.Main-Nav-Link:hover, .Account-Nav-Link:hover {
+.Subheader-Nav-Link:hover, .Footer-Nav-Link:hover {
   color: dimgray;
+  cursor: pointer;
 }
 
-.Main-Nav-Link-Active, .Account-Nav-Link-Active {
+.Subheader-Nav-Link-Active, .Footer-Nav-Link-Active {
   color: goldenrod;
+}
+
+.Subheader-Count {
+  display: flex;
+}
+
+select {
+  margin-left: 5px;
+}
+
+select:focus {
+  border: none;
+}
+
+select:active {
+  border: none;
 }
 
 /* Table Component Styling */
 .Table {
-  margin: 8px;
+  width: 100vw;
+}
+
+table {
+  width: 100%;
   background-color: #eaeaea;
-  border: 1px solid silver;
-  border-radius: 15px;
-  box-shadow: 3px 3px 5px 1px rgb(0 0 0 / 20%);
 }
 
-.Table-Title {
-  padding-left: 15px;
-  font-size: 1.15em;
-  text-align: left;
-}
-
-/* .Table-Head, .Table-Body{} */
-
-/* .Table-Head-Row, .Table-Body-Row{} */
-
-.Table-Head-Data, .Table-Body-Data {
+th, td {
   padding: 3px 10px;
   vertical-align: top;
   text-align: left;
   font-size: 0.8em;
 }
-
-/* .MiniTable {}
-.MiniTable-Head, .MiniTable-Body{}
-.MiniTable-Head-Row, .MiniTable-Body-Row{} */
