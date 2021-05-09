@@ -18,13 +18,18 @@ const Table = (props) => {
                     return Keys.push(key);
             }
         });
-        if (index < props.DisplayIndex || index > props.DisplayIndex + props.DisplayCount) return
-        return Display.push(entry);
+        // if (index < props.DisplayIndex || index > props.DisplayIndex + props.DisplayCount) return
+        // return Display.push(entry);
     });
 
     for (let i = 0; i < props.Cerner.entry.length; i++) {
         if (i % props.DisplayCount === 0) Pages.push(Pages.length);
+        if (i >= props.DisplayIndex && i < (props.DisplayIndex + props.DisplayCount)) Display.push(props.Cerner.entry[i]);
     }
+
+    console.log("Pages:", Pages);
+    console.log("DisplayCount:", props.DisplayCount);
+    console.log("DisplayIndex:", props.DisplayIndex );
 
     return <div className="Table">
         <table>
@@ -44,28 +49,22 @@ const Table = (props) => {
                 {Display.map((entry, index) => {
                     return <tr key={index}>
                         {Keys.map((key, i) => {
+                            if (!entry.resource[key]) return <td key={i}></td>
                             let string = '';
                             switch (true) {
                                 case (key === "name"):
-                                    switch (entry.resource.resourceType) {
-                                        case "RelatedPerson":
-                                            return <td key={i}>{entry.resource[key].text}</td>
-                                        default:
-                                            entry.resource[key].forEach(name => {
-                                                if (name.use === 'official') string = name.text;
-                                            });
-                                            return <td key={i}>{string}</td>
-                                    }
+                                    if (entry.resource.resourceType === "RelatedPerson") {
+                                        return <td key={i}>{entry.resource[key].text}</td>
+                                    } 
+                                    entry.resource[key].forEach(name => {
+                                        if (name.use === 'official') string = name.text;
+                                    });
+                                    return <td key={i}>{string}</td>
                                 case (key === "dosage"):
                                     entry.resource[key].forEach((dose, num) => {
-                                        switch (true) {
-                                            case (num === entry.resource[key].length - 1):
-                                                string += dose.text;
-                                                break;
-                                            default:
-                                                string += dose.text + '/n';
-                                                break;
-                                        }
+                                        if (num === entry.resource[key].length - 1) {
+                                            string += dose.text;
+                                        } else string += dose.text + '/n';
                                     });
                                     return <td key={i}>{string}</td>
                                 case (key === "birthDate"):
@@ -120,7 +119,7 @@ const Table = (props) => {
         {Pages.length > 1 ? (
             <ul className="Footer-Nav">
                 {Pages.map((page, index) => {
-                    if (props.DisplayIndex === index) return <li 
+                    if (props.DisplayIndex === props.DisplayCount * page) return <li 
                         key={index}
                         className="Footer-Nav-Link Footer-Nav-Link-Active"
                         onClick={() => props.SetAppState({ DisplayIndex: props.DisplayCount * page })}

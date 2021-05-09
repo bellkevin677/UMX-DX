@@ -14,6 +14,18 @@ const Header = (props) => {
                     className="Header-Link"
                     activeClassName="Header-Link-Active"
                 >Account</NavLink>
+                <NavLink 
+                    to="/" 
+                    className="Header-Link"
+                    onClick={() => props.SetAppState({
+                        Oauth2: null,
+                        Cerner: null,
+                        MainIndex: 0,
+                        AccountIndex: 0,
+                        DisplayCount: 25,
+                        DisplayIndex: 0
+                    })}
+                >Log Out</NavLink>
             </div>
         ) : (
             <div className="Header-Navbar">

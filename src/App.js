@@ -65,6 +65,7 @@ export default class App extends React.Component {
         {Loading ? null : (
           <Header 
             Oauth2={Oauth2}
+            SetAppState={this.setAppState}
           />
         )}
         <Switch>

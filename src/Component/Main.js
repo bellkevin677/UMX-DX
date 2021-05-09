@@ -58,7 +58,13 @@ export default class Main extends React.Component {
           <li className="Subheader-Nav-Link">
             <label className="Subheader-Count">
               Count:
-              <select value={DisplayCount} onChange={event => SetAppState({ DisplayCount: event.target.value })}>
+              <select 
+                value={DisplayCount} 
+                onChange={event => SetAppState({ 
+                  DisplayCount: event.target.value,
+                  DisplayIndex: 0
+                })}
+              >
                 <option value={25}>25</option>
                 <option value={50}>50</option>
                 <option value={100}>100</option>
