@@ -15,6 +15,8 @@ Events.patient.launch = (props) => {
 }
 
 Events.patient.ready = (props) => {
+    // Using the values from the authorize return, perform a request using the props Param value.
+    // Then always set loading state to false, and if successful set Oauth2 to the authorize return and Cerner to the request return.
     FHIR.oauth2.ready()
         .then(client => {
             client.patient.request(props.Param)
@@ -52,15 +54,17 @@ Events.client = {};
 // }
 
 Events.client.request = (props) => {
+    // Using the current Oauth2 state, perform a request for the route's array at a certain index.
+    // Then update the Cerner state, the route's index state, and reset the current display back to 0.
     const client = FHIR.client(props.Oauth2.state);
-
     client.patient.request(props.Page)
         .then(res => props.SetAppState({ Cerner: res, [props.State]: props.Value, DisplayIndex: 0 }))
         .catch(console.error);
 }
 
 Events.client.routeChange = (props) => {
-
+    // Test to see if the current Cerner state has another route's resource type.
+    // If so, update the Cerner state.
     let newPage = false;
     props.Cerner.entry.forEach(entry => {
         if (props.PrevScope.includes(entry.resource.resourceType)) newPage = true;
