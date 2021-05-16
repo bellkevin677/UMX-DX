@@ -36,11 +36,8 @@ export default class App extends React.Component {
   componentDidMount() {
     const { Cerner, MainArray, MainIndex } = this.state;
     if (!Cerner) {
-      Events.patient.ready({
-        SetAppState: this.setAppState, 
-        Param: MainArray[MainIndex]
-      });
-      Events.provider.ready({
+      Events.client.ready({
+        Page: MainArray[MainIndex],
         SetAppState: this.setAppState
       });
       this.setState({ Loading: true });
@@ -59,6 +56,8 @@ export default class App extends React.Component {
       DisplayCount,
       DisplayIndex
     } = this.state;
+
+    if (Cerner) console.log("Cerner:", Cerner);
 
     return <div className="App">
       <Router basename="/UMX-DX">

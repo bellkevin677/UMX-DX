@@ -3,7 +3,7 @@ import Events from '../../Events';
 
 const Provider = () => {
 
-    Events.provider.launch();
+    Events.provider();
     return <div className="App-Launch">
         <h1>Please wait...</h1>
     </div>
