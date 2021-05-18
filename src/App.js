@@ -98,12 +98,16 @@ export default class App extends React.Component {
               SetAppState={this.setAppState}
             />
           </Route>
-          <Route path="/launch-patient">
-            <LaunchPatient />
-          </Route>
-          <Route path="/launch-provider">
-            <LaunchProvider />
-          </Route>
+          {!Oauth2 ? (
+            <>
+              <Route path="/launch-patient">
+                <LaunchPatient />
+              </Route>
+              <Route path="/launch-provider">
+                <LaunchProvider />
+              </Route> 
+            </>
+          ) : null }
         </Switch>
       </Router>
     </div>

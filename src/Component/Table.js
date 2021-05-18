@@ -1,137 +1,113 @@
+import Events from "../Events";
+
 const Table = (props) => {
-    const Display = [],
-        Pages = [],
-        Keys = [],
-        KeysUsed = ["subject", "issued", "status", "category", "code", "patient", "clinicalStatus", "verificationStatus", "abatementDateTime", "abatementBoolean", "onsetDateTime", "medicationCodeableConcept", "dosage", "wasNotTaken", "substance", "criticality", "name", "birthDate", "gender", "maritalStatus", "active"];
+    const Display = [];
+    let Type = null,
+        Pages = Math.ceil(props.Cerner.length / props.DisplayCount);
 
-    props.Cerner.map((entry, index) => {
-        const AllKeys = Object.keys(entry);
-        AllKeys.map(key => {
-            switch(true) {
-                case (Keys.includes(key)):
-                    return
-                case (!isNaN(key)):
-                    return Keys.push(key);
-                case (!KeysUsed.includes(key)):
-                    return 
-                default:
-                    return Keys.push(key);
-            }
-        });
-        // if (index < props.DisplayIndex || index > props.DisplayIndex + props.DisplayCount) return
-        // return Display.push(entry);
-    });
+    if (props.Cerner[0].resourceType) Type = props.Cerner[0].resourceType.toLowerCase();
 
-    for (let i = 0; i < props.Cerner.length; i++) {
-        if (i % props.DisplayCount === 0) Pages.push(Pages.length);
-        if (i >= props.DisplayIndex && i < (props.DisplayIndex + props.DisplayCount)) Display.push(props.Cerner[i]);
+    // For each entry, see if value has entered-in-error and if not add entry to display...
+    // then set up pages to be viewed.
+    for (let i = 0; i < props.Cerner.length && Display.length < props.DisplayCount; i++) {
+        if (i >= props.DisplayIndex) Display.push(props.Cerner[i]);
     }
 
-    // console.log("Pages:", Pages);
-    // console.log("DisplayCount:", props.DisplayCount);
-    // console.log("DisplayIndex:", props.DisplayIndex );
+    if (Display.length > 0) console.log("Display: ", Display);
+    if (Pages > 0) console.log(`Pages(Current/Total): ${props.CurrentPage}/${Pages}`);
+    if (Pages > 0) console.log(`Index(Current/Total): ${props.DisplayIndex}/${props.Cerner.length}`);
+    if (Pages > 0) console.log(`DisplayCount: ${props.DisplayCount}`);
 
     return <div className="Table">
         <table>
             <thead>
-                <tr>
-                    {Keys.map((key, index) => {
-                        switch (key) {
-                            case "wasNotTaken":
-                                return <th key={index}>Taken</th>
-                            default:
-                                return <th key={index}>{key}</th>
-                        }
-                    })}
-                </tr>
+                {Events.thead[Type]()}
             </thead>
             <tbody>
                 {Display.map((entry, index) => {
-                    return <tr key={index}>
-                        {Keys.map((key, i) => {
-                            if (!entry[key]) return <td key={i}></td>
-                            let string = '';
-                            switch (true) {
-                                // case (key === "name"):
-                                //     if (entry.resourceType === "RelatedPerson") {
-                                //         return <td key={i}>{entry[key].text}</td>
-                                //     } 
-                                //     entry[key].forEach(name => {
-                                //         if (name.use === 'official') string = name.text;
-                                //     });
-                                //     return <td key={i}>{string}</td>
-                                // case (key === "dosage"):
-                                //     entry[key].forEach((dose, num) => {
-                                //         if (num === entry[key].length - 1) {
-                                //             string += dose.text;
-                                //         } else string += dose.text + '/n';
-                                //     });
-                                //     return <td key={i}>{string}</td>
-                                case (key === "birthDate"):
-                                case (key === "issued"):
-                                    string = new Date(entry[key]);
-                                    return <td key={i}>{string.toDateString()}</td>
-                                case (key === "subject"):
-                                    if (!entry[key].reference) return <td key={i}></td>
-                                    return <td key={i}>{entry[key].reference.split('/')[1]}</td>
-                                case (key === "maritalStatus"):
-                                case (key === "substance"):
-                                case (key === "medicationCodeableConcept"):
-                                case (key === "code"):
-                                case (key === "category"):
-                                    switch (true) {
-                                        case (typeof entry[key] === 'string'):
-                                            return <td key={i}>{entry[key]}</td>
-                                        case (entry.resourceType === "Patient" && entry[key] !== undefined):
-                                        case (entry.resourceType === "AllergyIntolerance" && entry[key] !== undefined):
-                                        case (entry.resourceType === "MedicationStatement" && entry[key] !== undefined):
-                                        case (entry.resourceType === "Observation" && entry[key] !== undefined):
-                                            return <td key={i}>{entry[key].text}</td>
-                                        default:
-                                            return <td key={i}></td>
-                                    }
-                                case (key === "patient"):
-                                    if (!entry[key].display) return <td key={i}></td>
-                                    return <td key={i}>{entry[key].display}</td>
-                                case (key === "wasNotTaken"):
-                                    if (entry[key]) {
-                                        string = "Not Taken";
-                                    } else string = "Taken";
-                                    return <td key={i}>{string}</td>
-                                // case (key === "active"):
-                                // case (key === "gender"):
-                                // case (key === "criticality"):
-                                // case (key === "onsetDateTime"):
-                                // case (key === "abatementBoolean"):
-                                // case (key === "abatementDateTime"):
-                                // case (key === "verificationStatus"):
-                                // case (key === "clinicalStatus"):
-                                // case (key === "status"):
-                                default:
-                                    if (typeof entry[key] !== 'string') return <td key={i}>NonString</td>
-                                    return <td key={i}>{entry[key]}</td>
-                            }
-                        })}
-                    </tr>
+                    return Events.tbody[Type]({
+                        index: index,
+                        entry: entry
+                    });
                 })}
             </tbody>
         </table>
-        {Pages.length > 1 ? (
-            <ul className="Footer-Nav">
-                {Pages.map((page, index) => {
-                    if (props.DisplayIndex === props.DisplayCount * page) return <li 
-                        key={index}
-                        className="Footer-Nav-Link Footer-Nav-Link-Active"
-                        onClick={() => props.SetAppState({ DisplayIndex: props.DisplayCount * page })}
-                    >{page + 1}</li>
-                    return <li 
-                        key={index}
-                        className="Footer-Nav-Link"
-                        onClick={() => props.SetAppState({ DisplayIndex: props.DisplayCount * page })}
-                    >{page + 1}</li>
-                })}
-            </ul>
+        {Pages > 1 ? (
+            <TableFooter 
+                Cerner={props.Cerner}
+                Pages={Pages}
+                DisplayCount={props.DisplayCount}
+                DisplayIndex={props.DisplayIndex}
+                CurrentPage={props.CurrentPage}
+                SetAppState={props.SetAppState}
+                SetParentState={props.SetParentState}
+            />
         ) : null}
+    </div>
+}
+
+function TableFooter(props) {
+    return <div className="Footer-Nav">
+        <div>
+            <button
+                className="Footer-Nav-Link"
+                onClick={() => {
+                    props.SetAppState({ DisplayIndex: 0 });
+                    props.SetParentState({ CurrentPage: 1 });
+                }}
+                disabled={props.CurrentPage <= 1}
+            >First</button>
+            <button
+                className="Footer-Nav-Link"
+                onClick={() => {
+                    props.SetAppState({ DisplayIndex: props.DisplayIndex - props.DisplayCount });
+                    props.SetParentState({ CurrentPage: props.CurrentPage - 1 });
+                }}
+                disabled={props.CurrentPage <= 1}
+            >Prev</button>
+        </div>
+        <div className="Footer-Nav-Link">
+            <label className="Footer-Label">
+                <input 
+                    className="Footer-Input"
+                    type="text" 
+                    value={props.CurrentPage}
+                    onChange={event => props.SetParentState({ CurrentPage: event.target.value })}
+                    onKeyPress={event => {
+                        if (event.key === "Enter") {
+                            if (props.CurrentPage <= 1) {
+                                props.SetAppState({ DisplayIndex: 0 });
+                                return props.SetParentState({ CurrentPage: 1 });
+                            }
+                            if (props.CurrentPage >= props.Pages) {
+                                props.SetAppState({ DisplayIndex: props.Cerner.length - props.DisplayCount });
+                                return props.SetParentState({ CurrentPage: props.Pages });
+                            }
+                            props.SetAppState({ DisplayIndex: props.DisplayCount * (props.CurrentPage - 1) });
+                        }
+                    }}
+                ></input>
+                {`/${props.Pages}`}
+            </label>
+        </div>
+        <div>
+            <button
+                className="Footer-Nav-Link"
+                onClick={() => {
+                    props.SetAppState({ DisplayIndex: props.DisplayIndex + props.DisplayCount });
+                    props.SetParentState({ CurrentPage: props.CurrentPage + 1 });
+                }}
+                disabled={props.CurrentPage >= props.Pages}
+            >Next</button>
+            <button
+                className="Footer-Nav-Link"
+                onClick={() => {
+                    props.SetAppState({ DisplayIndex: props.DisplayCount * (props.Pages - 1) });
+                    props.SetParentState({ CurrentPage: props.Pages });
+                }}
+                disabled={props.CurrentPage >= props.Pages}
+            >Last</button>
+        </div>
     </div>
 }
 

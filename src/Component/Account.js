@@ -3,6 +3,17 @@ import Events from '../Events';
 import Table from './Table';
 
 export default class Account extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        CurrentPage: 1
+      }
+      this.SetAccountState = this.SetAccountState.bind(this);
+    }
+  
+    SetAccountState(event) {
+      this.setState(event);
+    }
 
     componentDidMount() {
       const { Oauth2, Cerner, MainArray, AccountArray, AccountIndex, SetAppState } = this.props;
@@ -11,10 +22,11 @@ export default class Account extends React.Component {
           PrevScope: MainArray,
           Oauth2: Oauth2,
           Cerner: Cerner,
-          SetAppState: SetAppState,
           Page: AccountArray[AccountIndex],
           State: "AccountIndex",
-          Value: AccountIndex
+          Value: AccountIndex,
+          SetAppState: SetAppState,
+          SetParentState: this.SetAccountState
         });
       }
     }
@@ -28,7 +40,9 @@ export default class Account extends React.Component {
             DisplayCount,
             DisplayIndex,
             SetAppState
-        } = this.props;
+        } = this.props, {
+            CurrentPage
+        } = this.state;
 
         return <div className="App-Account">
             <ul className="Subheader-Nav">
@@ -37,10 +51,11 @@ export default class Account extends React.Component {
                         className="Subheader-Nav-Link Subheader-Nav-Link-Active" 
                         onClick={() => Events.client.request({
                             Oauth2: Oauth2,
-                            SetAppState: SetAppState,
                             Page: item,
                             State: "AccountIndex",
-                            Value: i
+                            Value: i,
+                            SetAppState: SetAppState,
+                            SetParentState: this.SetAccountState
                         })}
                     >{item}</li>
                     return <li key={i} 
@@ -50,19 +65,22 @@ export default class Account extends React.Component {
                             SetAppState: SetAppState,
                             Page: item,
                             State: "AccountIndex",
-                            Value: i
+                            Value: i,
+                            SetAppState: SetAppState,
+                            SetParentState: this.SetAccountState
                         })}
                     >{item}</li>
                 })}
                 <li className="Subheader-Nav-Link">
-                    <label className="Subheader-Count">
+                    <label className="Subheader-Label">
                         Count:
                         <select 
+                            className="Subheader-Select"
                             value={DisplayCount} 
-                            onChange={event => SetAppState({ 
-                                DisplayCount: event.target.value,
-                                DisplayIndex: 0
-                            })}
+                            onChange={event => {
+                                SetAppState({ DisplayCount: parseInt(event.target.value), DisplayIndex: 0 });
+                                this.SetAccountState({ CurrentPage: 1 });
+                            }}
                         >
                             <option value={25}>25</option>
                             <option value={50}>50</option>
@@ -75,7 +93,9 @@ export default class Account extends React.Component {
                 Cerner={Cerner}
                 DisplayCount={DisplayCount}
                 DisplayIndex={DisplayIndex}
+                CurrentPage={CurrentPage}
                 SetAppState={SetAppState}
+                SetParentState={this.SetAccountState}
             />
         </div>
     }
