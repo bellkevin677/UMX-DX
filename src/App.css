@@ -3,6 +3,14 @@
   min-height: 100vh;
 }
 
+.App-Loading {
+  width: 100vw;
+  height: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* iframe {
   width: 100%;
   min-height: 50vh;
@@ -22,7 +30,7 @@
   display: flex;
 }
 
-.Header-Link {
+.Header-Link, .Card-Title {
   padding: 5px 10px;
   font-size: 1.75em;
   color: #000;
@@ -97,6 +105,11 @@ select:focus, input:focus {
   margin: 20px;
   width: 100px;
   height: 250px;
+  background-color: #eaeaea;
+}
+
+.Card:hover {
+  cursor: pointer;
 }
 
 /* Table Component Styling */

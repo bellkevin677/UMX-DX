@@ -48,30 +48,35 @@ export default class Account extends React.Component {
         return Cerner ? (
             <div className="App-Account">
                 <ul className="Subheader-Nav">
-                    {AccountArray.map((item, i) => {
+                    {AccountArray.map((title, i) => {
                         if (AccountIndex === i) return <li key={i} 
                             className="Subheader-Nav-Link Subheader-Nav-Link-Active" 
-                            onClick={() => Events.client.request({
-                                Oauth2: Oauth2,
-                                Page: item,
-                                State: "AccountIndex",
-                                Value: i,
-                                SetAppState: SetAppState,
-                                SetParentState: this.SetAccountState
-                            })}
-                        >{item}</li>
+                            onClick={() => {
+                                SetAppState({ Loading: true });
+                                Events.client.request({
+                                    Oauth2: Oauth2,
+                                    Page: title,
+                                    State: "AccountIndex",
+                                    Value: i,
+                                    SetAppState: SetAppState,
+                                    SetParentState: this.SetAccountState
+                                });
+                            }}
+                        >{title}</li>
                         return <li key={i} 
                             className="Subheader-Nav-Link" 
-                            onClick={() => Events.client.request({
-                                Oauth2: Oauth2,
-                                SetAppState: SetAppState,
-                                Page: item,
-                                State: "AccountIndex",
-                                Value: i,
-                                SetAppState: SetAppState,
-                                SetParentState: this.SetAccountState
-                            })}
-                        >{item}</li>
+                            onClick={() => {
+                                SetAppState({ Loading: true });
+                                Events.client.request({
+                                    Oauth2: Oauth2,
+                                    Page: title,
+                                    State: "AccountIndex",
+                                    Value: i,
+                                    SetAppState: SetAppState,
+                                    SetParentState: this.SetAccountState
+                                });
+                            }}
+                        >{title}</li>
                     })}
                     <li className="Subheader-Nav-Link">
                         <label className="Subheader-Label">
@@ -103,6 +108,10 @@ export default class Account extends React.Component {
         ) : (
             <Cards 
                 CardArray={AccountArray}
+                Oauth2={Oauth2}
+                State="AccountIndex"
+                SetAppState={SetAppState}
+                SetParentState={this.SetAccountState}
             />
         )
     }

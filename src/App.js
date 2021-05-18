@@ -26,19 +26,18 @@ export default class App extends React.Component {
       DisplayCount: 25,
       DisplayIndex: 0
     }
-    this.setAppState = this.setAppState.bind(this);
+    this.SetAppState = this.SetAppState.bind(this);
   }
 
-  setAppState(event) {
+  SetAppState(event) {
     this.setState(event);
   }
 
   componentDidMount() {
-    const { Cerner, MainArray, MainIndex } = this.state;
+    const { Cerner } = this.state;
     if (!Cerner) {
       Events.client.ready({
-        Page: MainArray[MainIndex],
-        SetAppState: this.setAppState
+        SetAppState: this.SetAppState
       });
       this.setState({ Loading: true });
     }
@@ -64,13 +63,13 @@ export default class App extends React.Component {
         {Loading ? null : (
           <Header 
             Oauth2={Oauth2}
-            SetAppState={this.setAppState}
+            SetAppState={this.SetAppState}
           />
         )}
         <Switch>
           <Route exact path='/'>
             {Loading ? (
-              <div className="App-Main">
+              <div className="App-Loading">
                 <h1>Please wait...</h1>
               </div>
             ) : (
@@ -82,7 +81,7 @@ export default class App extends React.Component {
                 MainIndex={MainIndex}
                 DisplayCount={DisplayCount}
                 DisplayIndex={DisplayIndex}
-                SetAppState={this.setAppState}
+                SetAppState={this.SetAppState}
               />
             )}
           </Route>
@@ -95,7 +94,7 @@ export default class App extends React.Component {
               AccountIndex={AccountIndex}
               DisplayCount={DisplayCount}
               DisplayIndex={DisplayIndex}
-              SetAppState={this.setAppState}
+              SetAppState={this.SetAppState}
             />
           </Route>
           {!Oauth2 ? (

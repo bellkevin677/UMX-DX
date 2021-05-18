@@ -30,29 +30,8 @@ Events.client.ready = (props) => {
     // Using the values from the authorize return, perform a request using the props Param value.
     // Then always set loading state to false, and if successful set Oauth2 to the authorize return and Cerner to the request return.
     FHIR.oauth2.ready()
-        .then(client => {
-            client.patient.request(props.Page, {
-                pageLimit: 0,
-                flat: true
-            })
-                .then(response => {
-                    const newRes = [];
-                    let addEntry = true;
-                    response.forEach(res => {
-                        switch (true) {
-                            default:
-                                addEntry = true;
-                                break;
-                            case (res.verificationStatus && res.verificationStatus === "entered-in-error"):
-                            case (res.code && res.code.text === "Entered In Error"):
-                                addEntry = false;
-                                break;
-                        }
-                        if (addEntry) newRes.push(res);
-                    });
-                    props.SetAppState({ Loading: false, Oauth2: client, Cerner: newRes })
-                }).catch(err => props.SetAppState({ Loading: false, Oauth2: client }));
-        }).catch(() => props.SetAppState({ Loading: false }));
+        .then(client => props.SetAppState({ Loading: false, Oauth2: client }))
+        .catch(() => props.SetAppState({ Loading: false }));
 }
 
 Events.client.routeChange = (props) => {
@@ -62,7 +41,10 @@ Events.client.routeChange = (props) => {
     props.Cerner.forEach(entry => {
         if (props.PrevScope.includes(entry.resourceType)) newPage = true;
     });
-    if (newPage) Events.client.request(props);
+    if (newPage) {
+        props.SetAppState({ Loading: true });
+        Events.client.request(props);
+    }
 }
 
 Events.client.request = (props) => {
@@ -88,11 +70,11 @@ Events.client.request = (props) => {
                 }
                 if (addEntry) newRes.push(res);
             });
-            props.SetAppState({ Cerner: newRes, [props.State]: props.Value, DisplayIndex: 0 });
-            props.SetParentState({ CurrentPage: 1 });
+            props.SetAppState({ Loading: false, Cerner: newRes, [props.State]: props.Value, DisplayIndex: 0 });
+            if (props.SetParentState) props.SetParentState({ CurrentPage: 1 });
         }).catch(err => {
             props.SetAppState({ Loading: false, [props.State]: props.Value, DisplayIndex: 0 });
-            props.SetParentState({ CurrentPage: 1 });
+            if (props.SetParentState) props.SetParentState({ CurrentPage: 1 });
         });
 }
 

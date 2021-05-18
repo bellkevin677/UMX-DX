@@ -2,10 +2,11 @@ import { NavLink } from 'react-router-dom';
 
 const Header = (props) => {
     
-    return <header className="App-Header">
+    return <header id="Header" className="App-Header">
         <NavLink 
             to="/" 
             className="Header-Link"
+            onClick={() => props.SetAppState({ Cerner: null })}
         >UMX-DX App</NavLink>
         {props.Oauth2 ? (
             <div className="Header-Navbar">
@@ -13,6 +14,7 @@ const Header = (props) => {
                     to="/account" 
                     className="Header-Link"
                     activeClassName="Header-Link-Active"
+                    onClick={() => props.SetAppState({ Cerner: null })}
                 >Account</NavLink>
                 <NavLink 
                     to="/" 

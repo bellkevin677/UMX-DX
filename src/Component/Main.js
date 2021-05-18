@@ -49,29 +49,35 @@ export default class Main extends React.Component {
       Cerner ? (
         <div className="App-Main">
           <ul className="Subheader-Nav">
-            {MainArray.map((item, i) => {
+            {MainArray.map((title, i) => {
               if (MainIndex === i) return <li key={i} 
                 className="Subheader-Nav-Link Subheader-Nav-Link-Active" 
-                onClick={() => Events.client.request({
-                  Oauth2: Oauth2,
-                  Page: item,
-                  State: "MainIndex",
-                  Value: i,
-                  SetAppState: SetAppState,
-                  SetParentState: this.SetMainState
-                })}
-              >{item}</li>
+                onClick={() => {
+                  SetAppState({ Loading: true });
+                  Events.client.request({
+                    Oauth2: Oauth2,
+                    Page: title,
+                    State: "MainIndex",
+                    Value: i,
+                    SetAppState: SetAppState,
+                    SetParentState: this.SetMainState
+                  });
+                }}
+              >{title}</li>
               return <li key={i} 
                 className="Subheader-Nav-Link" 
-                onClick={() => Events.client.request({
-                  Oauth2: Oauth2,
-                  Page: item,
-                  State: "MainIndex",
-                  Value: i,
-                  SetAppState: SetAppState,
-                  SetParentState: this.SetMainState
-                })}
-              >{item}</li>
+                onClick={() => {
+                  SetAppState({ Loading: true });
+                  Events.client.request({
+                    Oauth2: Oauth2,
+                    Page: title,
+                    State: "MainIndex",
+                    Value: i,
+                    SetAppState: SetAppState,
+                    SetParentState: this.SetMainState
+                  });
+                }}
+              >{title}</li>
             })}
             <li className="Subheader-Nav-Link">
               <label className="Subheader-Label">
@@ -104,6 +110,10 @@ export default class Main extends React.Component {
       ) : (
         <Cards 
           CardArray={MainArray}
+          Oauth2={Oauth2}
+          State="MainIndex"
+          SetAppState={SetAppState}
+          SetParentState={this.SetAccountState}
         />
       )
     ) : (
