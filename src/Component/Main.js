@@ -1,5 +1,6 @@
 import React from 'react';
 import Events from '../Events';
+import Cards from './Cards';
 import Table from './Table';
 
 export default class Main extends React.Component {
@@ -101,9 +102,9 @@ export default class Main extends React.Component {
           />
         </div>
       ) : (
-        <div className="App-Main">
-          <h1>Please wait...</h1>
-        </div>
+        <Cards 
+          CardArray={MainArray}
+        />
       )
     ) : (
       <div className="App-Main">

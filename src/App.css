@@ -85,6 +85,20 @@ select:focus, input:focus {
   border: none;
 }
 
+/* Cards Component Styling */
+.App-Cards {
+  padding: 0 15vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.Card {
+  margin: 20px;
+  width: 100px;
+  height: 250px;
+}
+
 /* Table Component Styling */
 table {
   padding: 0 15vw;
