@@ -18,8 +18,8 @@ const Table = (props) => {
     if (Pages > 0) console.log(`Index(Current/Total): ${props.DisplayIndex}/${props.Cerner.length}`);
     if (Pages > 0) console.log(`DisplayCount: ${props.DisplayCount}`);
 
-    return <div className="Table">
-        <table>
+    return <div className="App-Table">
+        <table className="Table">
             <thead>
                 {Events.thead[Type]()}
             </thead>
@@ -51,18 +51,12 @@ function TableFooter(props) {
         <div>
             <button
                 className="Footer-Nav-Link"
-                onClick={() => {
-                    props.SetAppState({ DisplayIndex: 0 });
-                    props.SetParentState({ CurrentPage: 1 });
-                }}
+                onClick={() => props.SetAppState({ CurrentPage: 1, DisplayIndex: 0 })}
                 disabled={props.CurrentPage <= 1}
             >First</button>
             <button
                 className="Footer-Nav-Link"
-                onClick={() => {
-                    props.SetAppState({ DisplayIndex: props.DisplayIndex - props.DisplayCount });
-                    props.SetParentState({ CurrentPage: props.CurrentPage - 1 });
-                }}
+                onClick={() => props.SetAppState({ CurrentPage: props.CurrentPage - 1, DisplayIndex: props.DisplayIndex - props.DisplayCount })}
                 disabled={props.CurrentPage <= 1}
             >Prev</button>
         </div>
@@ -72,16 +66,16 @@ function TableFooter(props) {
                     className="Footer-Input"
                     type="text" 
                     value={props.CurrentPage}
-                    onChange={event => props.SetParentState({ CurrentPage: event.target.value })}
+                    onChange={event => props.SetAppState({ CurrentPage: event.target.value })}
                     onKeyPress={event => {
                         if (event.key === "Enter") {
                             if (props.CurrentPage <= 1) {
                                 props.SetAppState({ DisplayIndex: 0 });
-                                return props.SetParentState({ CurrentPage: 1 });
+                                return props.SetAppState({ CurrentPage: 1 });
                             }
                             if (props.CurrentPage >= props.Pages) {
                                 props.SetAppState({ DisplayIndex: props.Cerner.length - props.DisplayCount });
-                                return props.SetParentState({ CurrentPage: props.Pages });
+                                return props.SetAppState({ CurrentPage: props.Pages });
                             }
                             props.SetAppState({ DisplayIndex: props.DisplayCount * (props.CurrentPage - 1) });
                         }
@@ -93,18 +87,12 @@ function TableFooter(props) {
         <div>
             <button
                 className="Footer-Nav-Link"
-                onClick={() => {
-                    props.SetAppState({ DisplayIndex: props.DisplayIndex + props.DisplayCount });
-                    props.SetParentState({ CurrentPage: props.CurrentPage + 1 });
-                }}
+                onClick={() => props.SetAppState({ CurrentPage: props.CurrentPage + 1, DisplayIndex: props.DisplayIndex + props.DisplayCount })}
                 disabled={props.CurrentPage >= props.Pages}
             >Next</button>
             <button
                 className="Footer-Nav-Link"
-                onClick={() => {
-                    props.SetAppState({ DisplayIndex: props.DisplayCount * (props.Pages - 1) });
-                    props.SetParentState({ CurrentPage: props.Pages });
-                }}
+                onClick={() => props.SetAppState({ CurrentPage: props.Pages, DisplayIndex: props.DisplayCount * (props.Pages - 1) })}
                 disabled={props.CurrentPage >= props.Pages}
             >Last</button>
         </div>

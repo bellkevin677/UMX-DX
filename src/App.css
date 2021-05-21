@@ -3,9 +3,9 @@
   min-height: 100vh;
 }
 
-.App-Loading {
+.App-Loading, .App-Login, .App-Error {
   width: 100vw;
-  height: 100vw;
+  height: 75vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,50 +18,59 @@
   border-radius: 8px;
 } */
 
-/* Header Styling */
+/* Header and Table Footer Styling */
 .App-Header {
-  padding: 50px 18vw 10px;
-  display: flex;
-  justify-content: space-between;
   border-bottom: 2px solid goldenrod;
 }
 
-.Header-Navbar {
+.Header-Main {
+  height: 125px;
+  margin: 0 18vw;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.Header-Subheader, .Footer-Nav {
+  background-color: #FAFAFA;
+}
+
+.Header-Nav {
   display: flex;
 }
-
-.Header-Link, .Card-Title {
-  padding: 5px 10px;
-  font-size: 1.75em;
-  color: #000;
-  text-decoration: unset;
-}
-
-.Header-Link:hover {
-  color: goldenrod;
-}
-
-.Header-Link-Active {
-  color: dimgray;
-}
-
-/* Main & Account Styling */
-
 .Subheader-Nav, .Footer-Nav {
   margin: 0;
   padding: 0 18vw;
   display: flex;
-  background-color: #FAFAFA;
 }
-
 .Subheader-Nav {
   justify-content: center;
 }
-
 .Footer-Nav {
   justify-content: space-around;
 }
 
+.Header-Nav-Dropdown {
+  position: fixed;
+  top: 125px;
+  display: flex;
+  flex-direction: column;
+  background-color: #F5F5F5;
+}
+
+.Header-Link {
+  padding: 5px 10px;
+  font-size: 1.75em;
+  text-decoration: unset;
+  color: #000;
+  background-color: transparent;
+  border: none;
+}
+.Header-Nav-Dropdown-Link {
+  padding: 5px 10px;
+  font-size: 1.5em;
+  color: #000;
+  text-decoration: unset;
+}
 .Subheader-Nav-Link, .Footer-Nav-Link {
   padding: 5px 10px;
   color: darkblue;
@@ -70,11 +79,17 @@
   list-style: none;
 }
 
+.Header-Link:hover, .Header-Nav-Dropdown-Link:hover {
+  color: goldenrod;
+}
 .Subheader-Nav-Link:hover, .Footer-Nav-Link:hover {
   color: dimgray;
   cursor: pointer;
 }
 
+.Header-Link-Active, .Header-Nav-Dropdown-Link-Active {
+  color: dimgray;
+}
 .Subheader-Nav-Link-Active {
   color: goldenrod;
 }
@@ -82,30 +97,31 @@
 .Subheader-Label, .Footer-Label {
   display: flex;
 }
-
 .Subheader-Select, .Footer-Input {
   width: 45px;
   margin: 0 5px;
   text-align: center;
 }
-
-select:focus, input:focus {
+.Subheader:focus, .Footer-Input:focus {
   border: none;
 }
+
 
 /* Cards Component Styling */
 .App-Cards {
   padding: 0 15vw;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-around;
 }
 
 .Card {
   margin: 20px;
-  width: 100px;
-  height: 250px;
+  min-width: 250px;
+  height: 100px;
   background-color: #eaeaea;
+  border-radius: 10px;
 }
 
 .Card:hover {
@@ -113,11 +129,14 @@ select:focus, input:focus {
 }
 
 /* Table Component Styling */
-table {
-  padding: 0 15vw;
+.Table {
   width: 100vw;
   min-height: 70vh;
-  background-color: #eaeaea;
+  background-color: #EAEAEA;
+}
+
+table {
+  padding: 0 15vw;
 }
 
 th, td {

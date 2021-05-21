@@ -30,8 +30,14 @@ Events.client.ready = (props) => {
     // Using the values from the authorize return, perform a request using the props Param value.
     // Then always set loading state to false, and if successful set Oauth2 to the authorize return and Cerner to the request return.
     FHIR.oauth2.ready()
-        .then(client => props.SetAppState({ Loading: false, Oauth2: client }))
-        .catch(() => props.SetAppState({ Loading: false }));
+        .then(client => {
+            client.patient.request("Patient", {
+                pageLimit: 0,
+                flat: true
+            }).then(res => {
+                props.SetAppState({ Loading: false, Oauth2: client, Patient: res });
+            }).catch(() => props.SetAppState({ Loading: false }));
+        }).catch(() => props.SetAppState({ Loading: false }));
 }
 
 Events.client.routeChange = (props) => {
@@ -63,19 +69,17 @@ Events.client.request = (props) => {
                     default:
                         addEntry = true;
                         break;
+                    case (res.status && res.status === "entered-in-error"):
                     case (res.verificationStatus && res.verificationStatus === "entered-in-error"):
+                    case (res.substance && res.substance === "Entered In Error"):
                     case (res.code && res.code.text === "Entered In Error"):
                         addEntry = false;
                         break;
                 }
                 if (addEntry) newRes.push(res);
             });
-            props.SetAppState({ Loading: false, Cerner: newRes, [props.State]: props.Value, DisplayIndex: 0 });
-            if (props.SetParentState) props.SetParentState({ CurrentPage: 1 });
-        }).catch(err => {
-            props.SetAppState({ Loading: false, [props.State]: props.Value, DisplayIndex: 0 });
-            if (props.SetParentState) props.SetParentState({ CurrentPage: 1 });
-        });
+            props.SetAppState({ Loading: false, Cerner: newRes, [props.Property]: props.Value, CurrentPage: 1, DisplayIndex: 0 });
+        }).catch(() => props.SetAppState({ Loading: false, [props.Property]: props.Value, CurrentPage: 1, DisplayIndex: 0 }));
 }
 
 // Table Head Events
@@ -181,7 +185,7 @@ Events.tbody.medicationstatement = (props) => {
     return <tr key={props.index}>
         <td>{props.entry.patient.display || "N/A"}</td>
         <td>{medication || "N/A"}</td>
-        <td>{getPath(props.entry, "dosageInstruction.0.text") || "N/A"}</td>
+        <td>{getPath(props.entry, "dosage.0.text") || "N/A"}</td>
         <td>{props.entry.status || "N/A"}</td>
         <td>{taken || "N/A"}</td>
     </tr>

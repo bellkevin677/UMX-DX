@@ -35,6 +35,7 @@ export default class Account extends React.Component {
     render() {
         const {
             Oauth2,
+            Patient,
             Cerner,
             AccountArray,
             AccountIndex,
@@ -47,6 +48,14 @@ export default class Account extends React.Component {
 
         return Cerner ? (
             <div className="App-Account">
+                <Table
+                    Cerner={Patient}
+                    DisplayCount={DisplayCount}
+                    DisplayIndex={DisplayIndex}
+                    CurrentPage={CurrentPage}
+                    SetAppState={SetAppState}
+                    SetParentState={this.SetAccountState}
+                />
                 <ul className="Subheader-Nav">
                     {AccountArray.map((title, i) => {
                         if (AccountIndex === i) return <li key={i} 

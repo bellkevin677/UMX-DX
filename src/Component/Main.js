@@ -35,6 +35,7 @@ export default class Main extends React.Component {
   render() {
     const {
       Oauth2,
+      Patient,
       Cerner,
       MainArray,
       MainIndex,
@@ -47,66 +48,14 @@ export default class Main extends React.Component {
 
     return Oauth2 ? (
       Cerner ? (
-        <div className="App-Main">
-          <ul className="Subheader-Nav">
-            {MainArray.map((title, i) => {
-              if (MainIndex === i) return <li key={i} 
-                className="Subheader-Nav-Link Subheader-Nav-Link-Active" 
-                onClick={() => {
-                  SetAppState({ Loading: true });
-                  Events.client.request({
-                    Oauth2: Oauth2,
-                    Page: title,
-                    State: "MainIndex",
-                    Value: i,
-                    SetAppState: SetAppState,
-                    SetParentState: this.SetMainState
-                  });
-                }}
-              >{title}</li>
-              return <li key={i} 
-                className="Subheader-Nav-Link" 
-                onClick={() => {
-                  SetAppState({ Loading: true });
-                  Events.client.request({
-                    Oauth2: Oauth2,
-                    Page: title,
-                    State: "MainIndex",
-                    Value: i,
-                    SetAppState: SetAppState,
-                    SetParentState: this.SetMainState
-                  });
-                }}
-              >{title}</li>
-            })}
-            <li className="Subheader-Nav-Link">
-              <label className="Subheader-Label">
-                Count:
-                <select 
-                  className="Subheader-Select"
-                  value={DisplayCount} 
-                  onChange={event => {
-                    SetAppState({ DisplayCount: parseInt(event.target.value), DisplayIndex: 0 });
-                    this.SetMainState({ CurrentPage: 1 });
-                  }}
-                >
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
-              </label>
-            </li>
-          </ul>
-          <Table
-           Cerner={Cerner}
-           DisplayCount={DisplayCount}
-           DisplayIndex={DisplayIndex}
-           CurrentPage={CurrentPage}
-           SetAppState={SetAppState}
-           SetParentState={this.SetMainState}
-           
-          />
-        </div>
+        <Table
+          Cerner={Cerner}
+          DisplayCount={DisplayCount}
+          DisplayIndex={DisplayIndex}
+          CurrentPage={CurrentPage}
+          SetAppState={SetAppState}
+          SetParentState={this.SetMainState}
+        />
       ) : (
         <Cards 
           CardArray={MainArray}

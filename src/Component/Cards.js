@@ -1,25 +1,37 @@
 import Events from '../Events';
 
 const Cards = (props) => {
+    const MainLabels = [],
+        AccountLabels = [];
+
+    props.MainArray.forEach(option => MainLabels.push(option.label));
+    props.AccountArray.forEach(option => AccountLabels.push(option.label));
 
     return <div className="App-Cards">
-        {props.CardArray.map((title, index) => {
-            return <div key={index} 
+        {props.AllOptions.map((option, i) => {
+            return <div key={i} 
                 className="Card"
                 onClick={() => {
                     props.SetAppState({ Loading: true });
-                    Events.client.request({
-                        Oauth2: props.Oauth2,
-                        Page: title,
-                        State: props.State,
-                        Value: index,
-                        SetAppState: props.SetAppState,
-                        SetParentState: props.SetParentState
-                    });
+                    if (AccountLabels.includes(option.label)) {
+                        Events.client.request({
+                            Oauth2: props.Oauth2,
+                            Page: option.value,
+                            Property: "AccountIndex",
+                            Value: i,
+                            SetAppState: props.SetAppState
+                        });
+                    } else {
+                        Events.client.request({
+                            Oauth2: props.Oauth2,
+                            Page: option.value,
+                            Property: "MainIndex",
+                            Value: i,
+                            SetAppState: props.SetAppState
+                        });
+                    }
                 }}
-            >
-                <a className="Card-Title">{title}</a>
-            </div>
+            >{option.label}</div>
         })}
     </div>
 }
