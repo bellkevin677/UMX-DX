@@ -88,9 +88,9 @@ Events.thead = {};
 Events.thead.observation = () => {
     return <tr>
         <th>Issued Date</th>
-        <th>Subject</th>
-        <th>Report</th>
         <th>Category</th>
+        <th>Report</th>
+        <th>Context</th>
         <th>Status</th>
     </tr>
 }
@@ -100,25 +100,28 @@ Events.thead.condition = () => {
         <th>Patient</th>
         <th>Category</th>
         <th>Report</th>
-        <th>Initial Date</th>
         <th>Verification Status</th>
         <th>Clinical Status</th>
-        <th>Abatement Date</th>
+        <th>Recorded</th>
+        <th>Dates</th>
     </tr>
 }
 
 Events.thead.medicationstatement = () => {
     return <tr>
+        <th>Recorder</th>
         <th>Patient</th>
         <th>Medication</th>
         <th>Dosage</th>
         <th>Status</th>
         <th>Taken</th>
+        <th>Dates</th>
     </tr>
 }
 
 Events.thead.allergyintolerance = () => {
     return <tr>
+        <th>Recorder</th>
         <th>Patient</th>
         <th>Category</th>
         <th>Substance</th>
@@ -151,53 +154,66 @@ Events.tbody = {};
 
 Events.tbody.observation = (props) => {
     const issued = new Date(props.entry.issued),
-        report = "N/A";
-        // getSystemValue(getPath(props.entry, "code.coding") || getPath(props.entry, "code"), "http://snomed.info/sct", props.entry.code.text || "Report Unavailable");
+        report = getSystemValue(getPath(props.entry, "code.coding"), "http://snomed.info/sct", getPath(props.entry, "code.text") || "Report Error"),
+        addReport = getSystemValue(getPath(props.entry ,"valueCodeableConcept.coding"), "http://snomed.info/sct", getPath(props.entry, "valueCodeableConcept.text") || "N/A"),
+        addQty = getPath(props.entry, "valueQuantity.value") || "N/A",
+        addUnit = getPath(props.entry, "valueQuantity.unit") || "N/A",
+        absentReport = getSystemValue(getPath(props.entry, "dataAbsentReason.coding"), "http://hl7.org/fhir/data-absent-reason", getPath(props.entry, "dataAbsentReason.text") || "Absent Report");
+
+    let context = addReport;
+    if (addQty !== "N/A") context = addQty;
+    if (addQty !== "N/A" && addUnit !== "N/A") context = `${addQty} ${addUnit}`;
 
     return <tr key={props.index}>
         <td>{issued.toDateString() || "N/A"}</td>
-        <td>{props.entry.subject.reference.split('/')[1] || "N/A"}</td>
-        <td>{report || "N/A"}</td>
         <td>{props.entry.category.text || "N/A"}</td>
+        <td>{props.entry.absentReport ? absentReport : report }</td>
+        <td>{context}</td>
         <td>{props.entry.status || "N/A"}</td>
     </tr>
 }
 
 Events.tbody.condition = (props) => {
-    const onset = new Date(props.entry.onsetDateTime),
+    const recorded = new Date(props.entry.dateRecorded),
+        onset = new Date(props.entry.onsetDateTime),
         abatement = new Date(props.entry.onsetDateTime);
 
     return <tr key={props.index}>
         <td>{props.entry.patient.display || "N/A"}</td>
         <td>{props.entry.category.text || "N/A"}</td>
         <td>{props.entry.code.text || "N/A"}</td>
-        <td>{onset.toDateString() || "N/A"}</td>
         <td>{props.entry.verificationStatus || "N/A"}</td>
         <td>{props.entry.clinicalStatus || "N/A"}</td>
-        <td>{abatement.toDateString() || "N/A"}</td>
+        <td>{recorded.toDateString() || "N/A"}</td>
+        <td>{abatement === "Invalid Date" ? `${onset.toDateString()} - Present` : `${onset.toDateString()} - ${abatement.toDateString()}` || "N/A"}</td>
     </tr>
 }
 
 Events.tbody.medicationstatement = (props) => {
-    const medication = getSystemValue(getPath(props.entry, "medicationCodeableConcept.coding") || getPath(props.entry, "medicationCodeableConcept.code.coding"), "http://www.nlm.nih.gov/research/umls/rxnorm", "Unnamed Medication(TM)"),
-        taken = getPath(props.entry, "wasNotTaken") ? "No" : "Yes" ;
+    const medication = getSystemValue(getPath(props.entry, "medicationCodeableConcept.coding") || getPath(props.entry, "medicationCodeableConcept.code.coding"), "http://www.nlm.nih.gov/research/umls/rxnorm", getPath(props.entry, "medicationCodeableConcept.text") || "Unnamed Medication(TM)"),
+        taken = getPath(props.entry, "wasNotTaken") ? "No" : "Yes",
+        start = new Date(getPath(props.entry, "effectivePeriod.start")),
+        end = new Date(getPath(props.entry, "effectivePeriod.end"));
 
     return <tr key={props.index}>
+        <td>{getPath(props.entry, "informationSource.display") || "N/A"}</td>
         <td>{props.entry.patient.display || "N/A"}</td>
         <td>{medication || "N/A"}</td>
         <td>{getPath(props.entry, "dosage.0.text") || "N/A"}</td>
         <td>{props.entry.status || "N/A"}</td>
         <td>{taken || "N/A"}</td>
+        <td>{end === "Invalid Date" ? `${start.toDateString()} - Present` : `${start.toDateString()} - ${end.toDateString()}` || "N/A"}</td>
     </tr>
 }
 
 Events.tbody.allergyintolerance = (props) => {
     const allergy = getSystemValue(getPath(props.entry, "substance.coding") || getPath(props.entry, "substance.code.coding"), "http://snomed.info/sct", props.entry.substance.text || "Unnamed Allergy"),
-        criticality = props.entry.criticality === "CRITH" ? "High Risk" : "-";
+        criticality = props.entry.criticality === "CRITH" ? "High Risk" : "None";
 
     return <tr>
+        <td>{getPath(props.entry, "recorder.display") || "N/A"}</td>
         <td>{getPath(props.entry, "patient.display") || "N/A"}</td>
-        <td>{getPath(props.entry, "category") || "N/A"}</td>
+        <td>{props.entry.category || "N/A"}</td>
         <td>{allergy || "N/A"}</td>
         <td>{criticality || "N/A"}</td>
         <td>{props.entry.status || "N/A"}</td>
