@@ -2,7 +2,8 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom';
 import Events from './Events';
 import Header from './Component/Header';
@@ -62,10 +63,40 @@ export default class App extends React.Component {
       ]
     }
     this.SetAppState = this.SetAppState.bind(this);
+    this.RedirectRoute = this.RedirectRoute.bind(this);
   }
 
   SetAppState(event) {
     this.setState(event);
+  }
+
+  RedirectRoute(props) {
+    const MainLabels = [],
+      AccountLabels = [],
+      { Oauth2, MainArray, AccountArray } = this.state;
+
+    MainArray.forEach(option => MainLabels.push(option.label));
+    AccountArray.forEach(option => AccountLabels.push(option.label));
+
+    this.setState({ Loading: true });
+    if (AccountLabels.includes(props.option.label)) {
+      Events.client.request({
+        Oauth2: Oauth2,
+        Page: props.option.value,
+        Property: "AccountIndex",
+        Value: props.index,
+        SetAppState: this.SetAppState
+      });
+    } else {
+      Events.client.request({
+        Oauth2: Oauth2,
+        Page: props.option.value,
+        Property: "MainIndex",
+        Value: props.index,
+        SetAppState: this.SetAppState
+      });
+    }
+    <Redirect to={props.option.path}/>
   }
 
   componentDidMount() {
@@ -94,8 +125,6 @@ export default class App extends React.Component {
       AccountArray,
     } = this.state,
       AllOptions = MainArray.concat(AccountArray);
-
-    if (Cerner) console.log("Cerner:", Cerner);
 
     return <div className="App">
       <Router basename="/UMX-DX">
@@ -162,16 +191,13 @@ export default class App extends React.Component {
             </>
           ) : null }
         </Switch>
+        {!Loading && Oauth2 ? (
+          <Cards 
+            AllOptions={AllOptions}
+            RedirectRoute={this.RedirectRoute}
+          />
+        ) : null }
       </Router>
-      {Oauth2 ? (
-        <Cards 
-          Oauth2={Oauth2}
-          AllOptions={AllOptions}
-          MainArray={MainArray}
-          AccountArray={AccountArray}
-          SetAppState={this.SetAppState}
-        />
-      ) : null }
     </div>
   }
 };

@@ -14,9 +14,6 @@ const Table = (props) => {
     }
 
     if (Display.length > 0) console.log("Display: ", Display);
-    if (Pages > 0) console.log(`Pages(Current/Total): ${props.CurrentPage}/${Pages}`);
-    if (Pages > 0) console.log(`Index(Current/Total): ${props.DisplayIndex}/${props.Cerner.length}`);
-    if (Pages > 0) console.log(`DisplayCount: ${props.DisplayCount}`);
 
     return <div className="App-Table">
         <table className="Table">
