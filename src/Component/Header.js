@@ -1,113 +1,121 @@
 import { NavLink } from 'react-router-dom';
+import {
+    Navbar,
+    Nav,
+    NavDropdown,
+    Container,
+    Row,
+    Col,
+    Table
+} from 'react-bootstrap';
 import Events from '../Events';
 
 const Header = (props) => {
     
-    return <header id="Header" className="App-Header">
+    return <Navbar 
+        style={{ flexFlow: 'row wrap' }}
+    >
         {!props.Oauth2 ? (
-            <div className="Header-Main">
-                <NavLink 
-                    to="/" 
-                    className="Header-Link"
-                    onClick={() => props.SetAppState({
-                        Cerner: null,
-                        MainIndex: 0,
-                        AccountIndex: 0,
-                        DisplayCount: 25,
-                        DisplayIndex: 0
-                    })}
-                >UMX-DX App</NavLink>
-                <div className="Header-Nav">
-                    <button
-                        className="Header-Link"
-                        onClick={() => props.SetAppState({ Dropdown: null })}
-                        onMouseOver={() => props.SetAppState({ Dropdown: 'Header-Nav' })}
-                    >Login</button>
-                    {props.Dropdown === 'Header-Nav' ? (
-                        <div className="Header-Nav-Dropdown">
-                            <NavLink 
-                                to="/launch-patient" 
-                                className="Header-Nav-Dropdown-Link"
-                                activeClassName="Header-Nav-Dropdown-Link-Active"
-                                onClick={() => props.SetAppState({ Dropdown: null })}
-                            >Patient</NavLink>
-                            <NavLink 
-                                to="/launch-provider" 
-                                className="Header-Nav-Dropdown-Link"
-                                activeClassName="Header-Nav-Dropdown-Link-Active"
-                                onClick={() => props.SetAppState({ Dropdown: null })}
-                            >Provider</NavLink>
-                        </div>
-                    ) : null }
-                </div>
-            </div>
-        ) : (
-            <div className="Header-Main">
-                <NavLink 
-                    to="/" 
-                    className="Header-Link"
-                    onClick={() => props.SetAppState({
-                        Cerner: null,
-                        MainIndex: 0,
-                        AccountIndex: 0,
-                        DisplayCount: 25,
-                        DisplayIndex: 0
-                    })}
-                >UMX-DX App</NavLink>
-                <div className="Header-Nav">
-                    <button
-                        className="Header-Link"
-                        onClick={() => props.SetAppState({ Dropdown: null })}
-                        onMouseOver={() => props.SetAppState({ Dropdown: 'Header-Nav' })}
-                    >Menu</button>
-                    {props.Dropdown === 'Header-Nav' ? (
-                        <div className="Header-Nav-Dropdown">
-                            {props.AllOptions.map((option, i) => {
-                                return <NavLink key={i}
-                                    to={option.path}
-                                    className="Header-Nav-Dropdown-Link"
-                                    activeClassName="Header-Nav-Dropdown-Link-Active"
-                                    onClick={() => {
-                                        props.SetAppState({ Loading: true, Dropdown: null });
-                                        Events.client.request({
-                                            Oauth2: props.Oauth2,
-                                            Page: option.value,
-                                            Property: `${props.PageType}Index`,
-                                            Value: i,
-                                            SetAppState: props.SetAppState
-                                        });
-                                    }}
-                                >{option.label}</NavLink>
+            <Container 
+                fluid
+                style={{ display: 'block', margin: 0 }}
+            >
+                <Row>
+                    <Col>
+                        <Navbar.Brand
+                            as={NavLink}
+                            to="/"
+                            onClick={() => props.SetAppState({
+                                Cerner: null,
+                                MainIndex: 0,
+                                AccountIndex: 0,
+                                DisplayCount: 25,
+                                DisplayIndex: 0
                             })}
-                            <NavLink 
-                                to="/" 
-                                className="Header-Nav-Dropdown-Link"
-                                onClick={() => props.SetAppState({
-                                    Dropdown: null,
-                                    Oauth2: null,
-                                    Patient: null,
-                                    Cerner: null,
-                                    MainIndex: 0,
-                                    AccountIndex: 0,
-                                    DisplayCount: 25,
-                                    DisplayIndex: 0
-                                })}
-                            >Log Out</NavLink>
-                        </div>
-                    ) : null }
-                </div>
-            </div>
+                        >UMX-DX App</Navbar.Brand>
+                    </Col>
+                    <Col 
+                        as={NavDropdown}
+                        title="Login"
+                        id="navbarScrollingDropdown"
+                    >
+                        <NavDropdown.Item as={NavLink} to="/launch-patient">Patient</NavDropdown.Item>
+                        <NavDropdown.Item as={NavLink} to="/launch-provider">Provider</NavDropdown.Item>
+                    </Col>
+                </Row>
+            </Container>
+        ) : (
+            <Container 
+                fluid
+                style={{ display: 'block', margin: 0 }}
+            >
+                <Row>
+                    <Col>
+                        <Navbar.Brand
+                            as={NavLink}
+                            to="/"
+                            onClick={() => props.SetAppState({
+                                Cerner: null,
+                                MainIndex: 0,
+                                AccountIndex: 0,
+                                DisplayCount: 25,
+                                DisplayIndex: 0
+                            })}
+                        >UMX-DX App</Navbar.Brand>
+                    </Col>
+                    <Col
+                        as={NavDropdown}
+                        title="Menu"
+                        id="navbarScrollingDropdown"
+                    >
+                        {props.AllOptions.map((option, i) => {
+                            return <NavDropdown.Item 
+                                key={i}
+                                as={NavLink}
+                                to={option.path}
+                                onClick={() => {
+                                    props.SetAppState({ Loading: true });
+                                    Events.client.request({
+                                        Oauth2: props.Oauth2,
+                                        Page: option.value,
+                                        Property: `${props.PageType}Index`,
+                                        Value: i,
+                                        SetAppState: props.SetAppState
+                                    });
+                                }}
+                            >{option.label}</NavDropdown.Item>
+                        })}
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item
+                            as={NavLink}
+                            to="/" 
+                            onClick={() => props.SetAppState({
+                                Oauth2: null,
+                                Patient: null,
+                                Cerner: null,
+                                MainIndex: 0,
+                                AccountIndex: 0,
+                                DisplayCount: 25,
+                                DisplayIndex: 0
+                            })}
+                        >Log Out</NavDropdown.Item>
+                    </Col>
+                </Row>
+            </Container>
         )}
         {SubHeader(props)}
-    </header>
+    </Navbar>
 };
 
 function SubHeader(props) {
 
     if (!props.Patient && !props.Cerner) return
-    return <div className="Header-Subheader">
+    return <Container 
+        fluid
+        style={{ display: 'block', margin: 0 }}
+    >
         {props.Patient ? (
-            <table>
+            <Row as={Table}>
                 <thead>
                     {Events.thead.patient()}
                 </thead>
@@ -119,70 +127,77 @@ function SubHeader(props) {
                         });
                     })}
                 </tbody>
-            </table>
+            </Row>
         ) : null }
         {props.Cerner ? (
-            <div className="Subheader-Nav">
-                <NavLink 
-                    to="/" 
-                    className="Subheader-Nav-Link"
-                    onClick={() => props.SetAppState({
-                        Cerner: null,
-                        MainIndex: 0,
-                        AccountIndex: 0,
-                        DisplayCount: 25,
-                        DisplayIndex: 0
-                    })}
-                >Back</NavLink>
+            <Row as={Nav}>
+                <Col>
+                    <Nav.Link 
+                        as={NavLink}
+                        to="/" 
+                        onClick={() => props.SetAppState({
+                            Cerner: null,
+                            MainIndex: 0,
+                            AccountIndex: 0,
+                            DisplayCount: 25,
+                            DisplayIndex: 0
+                        })}
+                    >Back</Nav.Link>
+                </Col>
                 {props.PageArray.map((option, i) => {
-                    if (props.PageIndex === i) return <NavLink key={i} 
-                        to={option.path}
-                        className="Subheader-Nav-Link"
-                        activeClassName="Subheader-Nav-Link-Active"
-                        onClick={() => {
-                            props.SetAppState({ Loading: true });
-                            Events.client.request({
-                                Oauth2: props.Oauth2,
-                                Page: option.value,
-                                Property: `${props.PageType}Index`,
-                                Value: i,
-                                SetAppState: props.SetAppState
-                            });
-                        }}
-                    >{option.label}</NavLink>
-                    return <NavLink key={i} 
-                        to={option.path}
-                        className="Subheader-Nav-Link"
-                        activeClassName="Subheader-Nav-Link-Active"
-                        onClick={() => {
-                            props.SetAppState({ Loading: true });
-                            Events.client.request({
-                                Oauth2: props.Oauth2,
-                                Page: option.value,
-                                Property: `${props.PageType}Index`,
-                                Value: i,
-                                SetAppState: props.SetAppState
-                            });
-                        }}
-                    >{option.label}</NavLink>
+                    if (props.PageIndex === i) return <Col>
+                        <Nav.Link key={i} 
+                            as={NavLink}
+                            to={option.path}
+                            onClick={() => {
+                                props.SetAppState({ Loading: true });
+                                Events.client.request({
+                                    Oauth2: props.Oauth2,
+                                    Page: option.value,
+                                    Property: `${props.PageType}Index`,
+                                    Value: i,
+                                    SetAppState: props.SetAppState
+                                });
+                            }}
+                        >{option.label}</Nav.Link>
+                    </Col>
+                    return <Col>
+                        <Nav.Link key={i} 
+                            as={NavLink}
+                            to={option.path}
+                            onClick={() => {
+                                props.SetAppState({ Loading: true });
+                                Events.client.request({
+                                    Oauth2: props.Oauth2,
+                                    Page: option.value,
+                                    Property: `${props.PageType}Index`,
+                                    Value: i,
+                                    SetAppState: props.SetAppState
+                                });
+                            }}
+                        >{option.label}</Nav.Link>
+                    </Col>
                 })}
-                <div className="Subheader-Nav-Link">
-                    <label className="Subheader-Label">
-                        Count:
-                        <select 
-                            className="Subheader-Select"
-                            value={props.DisplayCount} 
-                            onChange={event => props.SetAppState({ DisplayCount: parseInt(event.target.value), CurrentPage: 1, DisplayIndex: 0 })}
-                        >
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                        </select>
-                    </label>
-                </div>
-            </div>
+                <Col>
+                    <Nav.Link
+                        as={NavDropdown}
+                        title={`Count: ${props.DisplayCount}`}
+                        id="navbarScrollingDropdown"
+                    >
+                        <NavDropdown.Item
+                            onClick={() => props.SetAppState({ DisplayCount: 25, CurrentPage: 1, DisplayIndex: 0 })}
+                        >25</NavDropdown.Item>
+                        <NavDropdown.Item
+                            onClick={() => props.SetAppState({ DisplayCount: 50, CurrentPage: 1, DisplayIndex: 0 })}
+                        >50</NavDropdown.Item>
+                        <NavDropdown.Item
+                            onClick={() => props.SetAppState({ DisplayCount: 100, CurrentPage: 1, DisplayIndex: 0 })}
+                        >100</NavDropdown.Item>
+                    </Nav.Link>
+                </Col>
+            </Row>
         ) : null }
-    </div>
+    </Container>
 
 }
 

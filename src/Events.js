@@ -17,7 +17,7 @@ Events.patient = (props) => {
 Events.provider = (props) => {
     FHIR.oauth2.authorize({
         client_id: "4cfb74e7-deb2-4151-9c22-16eba93fd1ec",
-        scope: "patient/Patient.read patient/Observation.read launch online_access openid profile",
+        scope: "user/AllergyIntolerance.read user/Condition.read user/MedicationStatement.read user/Observation.read user/Patient.read user/Person.read user/Practitioner.read user/ProcedureRequest.read launch online_access openid profile",
         iss: "https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d",
         redirectUri: "https://danielmoffitt54.github.io/UMX-DX/"
     }).catch(console.error);

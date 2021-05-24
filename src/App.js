@@ -11,7 +11,6 @@ import Cards from './Component/Cards';
 import Table from './Component/Table';
 import LaunchPatient from './Component/Launch/LaunchPatient';
 import LaunchProvider from './Component/Launch/LaunchProvider';
-import './App.css';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -125,6 +124,8 @@ export default class App extends React.Component {
       AccountArray,
     } = this.state,
       AllOptions = MainArray.concat(AccountArray);
+
+    if (Cerner) console.log("Cerner: ", Cerner);
 
     return <div className="App">
       <Router basename="/UMX-DX">

@@ -1,3 +1,16 @@
+@import './custom.scss';
+
+body {
+  margin: 0;
+  font-size: 14pt;
+  font-family: 'Mukta', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background-color: lightgrey;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .App {
   text-align: center;
   min-height: 100vh;
@@ -73,14 +86,14 @@
 }
 .Subheader-Nav-Link, .Footer-Nav-Link {
   padding: 5px 10px;
-  color: darkblue;
+  color: #00008b;
   background-color: transparent;
   border: none;
   list-style: none;
 }
 
 .Header-Link:hover, .Header-Nav-Dropdown-Link:hover {
-  color: goldenrod;
+  color: #daa520;
 }
 .Subheader-Nav-Link:hover, .Footer-Nav-Link:hover {
   color: dimgray;
@@ -91,7 +104,7 @@
   color: dimgray;
 }
 .Subheader-Nav-Link-Active {
-  color: goldenrod;
+  color: #daa520;
 }
 
 .Subheader-Label, .Footer-Label {
