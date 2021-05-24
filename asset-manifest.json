@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/UMX-DX/static/css/main.13b5f271.chunk.css",
-    "main.js": "/UMX-DX/static/js/main.865ccd93.chunk.js",
-    "main.js.map": "/UMX-DX/static/js/main.865ccd93.chunk.js.map",
+    "main.js": "/UMX-DX/static/js/main.fa31a50c.chunk.js",
+    "main.js.map": "/UMX-DX/static/js/main.fa31a50c.chunk.js.map",
     "runtime-main.js": "/UMX-DX/static/js/runtime-main.4b513f39.js",
     "runtime-main.js.map": "/UMX-DX/static/js/runtime-main.4b513f39.js.map",
     "static/js/2.82b3a25c.chunk.js": "/UMX-DX/static/js/2.82b3a25c.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.4b513f39.js",
     "static/js/2.82b3a25c.chunk.js",
     "static/css/main.13b5f271.chunk.css",
-    "static/js/main.865ccd93.chunk.js"
+    "static/js/main.fa31a50c.chunk.js"
   ]
 }
