@@ -1,11 +1,12 @@
 // Override default variables before the import
-$body-bg: #000;
-// $body-color: ;
+$color-pri: #6704F3;
+$color-sec: #F48704;
+$color-alt: #333333;
 
 $theme-colors: (
-    "primary": #00008b,
-    "secondary": #daa520
-    // "custom":
+    "primary": $color-pri,
+    "secondary": $color-sec,
+    "alt-color": $color-alt
 );
 
 // Import Bootstrap and its default variables

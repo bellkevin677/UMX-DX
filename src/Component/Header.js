@@ -12,14 +12,11 @@ import Events from '../Events';
 
 const Header = (props) => {
     
-    return <Navbar 
-        style={{ flexFlow: 'row wrap' }}
+    return <Navbar
+        style={{ flexFlow: 'row wrap'}}
     >
         {!props.Oauth2 ? (
-            <Container 
-                fluid
-                style={{ display: 'block', margin: 0 }}
-            >
+            <Container fluid>
                 <Row>
                     <Col>
                         <Navbar.Brand
@@ -45,10 +42,7 @@ const Header = (props) => {
                 </Row>
             </Container>
         ) : (
-            <Container 
-                fluid
-                style={{ display: 'block', margin: 0 }}
-            >
+            <Container fluid>
                 <Row>
                     <Col>
                         <Navbar.Brand
@@ -111,8 +105,11 @@ function SubHeader(props) {
 
     if (!props.Patient && !props.Cerner) return
     return <Container 
+        style={{ 
+            flexWrap: 'wrap', 
+            justifyContent: 'center'
+        }}
         fluid
-        style={{ display: 'block', margin: 0 }}
     >
         {props.Patient ? (
             <Row as={Table}>
@@ -131,7 +128,9 @@ function SubHeader(props) {
         ) : null }
         {props.Cerner ? (
             <Row as={Nav}>
-                <Col>
+                <Col
+                    style={{ alignSelf: 'center'}}
+                >
                     <Nav.Link 
                         as={NavLink}
                         to="/" 
@@ -145,7 +144,9 @@ function SubHeader(props) {
                     >Back</Nav.Link>
                 </Col>
                 {props.PageArray.map((option, i) => {
-                    if (props.PageIndex === i) return <Col>
+                    if (props.PageIndex === i) return <Col
+                        style={{ alignSelf: 'center'}}
+                    >
                         <Nav.Link key={i} 
                             as={NavLink}
                             to={option.path}
@@ -161,7 +162,9 @@ function SubHeader(props) {
                             }}
                         >{option.label}</Nav.Link>
                     </Col>
-                    return <Col>
+                    return <Col
+                        style={{ alignSelf: 'center'}}
+                    >
                         <Nav.Link key={i} 
                             as={NavLink}
                             to={option.path}
@@ -178,7 +181,9 @@ function SubHeader(props) {
                         >{option.label}</Nav.Link>
                     </Col>
                 })}
-                <Col>
+                <Col
+                    style={{ alignSelf: 'center'}}
+                >
                     <Nav.Link
                         as={NavDropdown}
                         title={`Count: ${props.DisplayCount}`}
