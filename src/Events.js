@@ -23,6 +23,16 @@ Events.provider = (props) => {
     }).catch(console.error);
 }
 
+// This is for the client EPIC the URI is on a different .io
+Events.patient = (props) => {
+    FHIR.oauth2.authorize({
+        client_id: "c2ba236b-1313-4265-b0e3-ec94bb4cf59c",
+        scope: "user/Patient.read user/Person.read user/Practitioner.read user/RelatedPerson.read patient/AllergyIntolerance.read patient/Condition.read patient/MedicationStatement.read patient/Observation.read patient/Patient.read patient/Person.read patient/RelatedPerson.read launch/patient online_access openid profile",
+        iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/f5cfd834-0999-4d6c-84fd-44e3c83ed0bf",
+        redirectUri: "https://bellkevin677.github.io/UMX-DX/"
+    }).catch(console.error);
+}
+
 // Client Events
 Events.client = {};
 
