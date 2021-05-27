@@ -14,21 +14,21 @@ Events.patient = (props) => {
     }).catch(console.error);
 }
 
-Events.provider = (props) => {
-    FHIR.oauth2.authorize({
-        client_id: "4cfb74e7-deb2-4151-9c22-16eba93fd1ec",
-        scope: "user/AllergyIntolerance.read user/Condition.read user/MedicationStatement.read user/Observation.read user/Patient.read user/Person.read user/Practitioner.read user/ProcedureRequest.read launch online_access openid profile",
-        iss: "https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d",
-        redirectUri: "https://danielmoffitt54.github.io/UMX-DX/"
-    }).catch(console.error);
-}
+// Events.provider = (props) => {
+//     FHIR.oauth2.authorize({
+//         client_id: "4cfb74e7-deb2-4151-9c22-16eba93fd1ec",
+//         scope: "user/AllergyIntolerance.read user/Condition.read user/MedicationStatement.read user/Observation.read user/Patient.read user/Person.read user/Practitioner.read user/ProcedureRequest.read launch online_access openid profile",
+//         iss: "https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d",
+//         redirectUri: "https://danielmoffitt54.github.io/UMX-DX/"
+//     }).catch(console.error);
+// }
 
-// This is for the client EPIC the URI is on a different .io
+// This is for the client EPIC. Has Epic Client ID. The redirectURI is on a different .io
 Events.patient = (props) => {
     FHIR.oauth2.authorize({
         client_id: "c2ba236b-1313-4265-b0e3-ec94bb4cf59c",
         scope: "user/Patient.read user/Person.read user/Practitioner.read user/RelatedPerson.read patient/AllergyIntolerance.read patient/Condition.read patient/MedicationStatement.read patient/Observation.read patient/Patient.read patient/Person.read patient/RelatedPerson.read launch/patient online_access openid profile",
-        iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/f5cfd834-0999-4d6c-84fd-44e3c83ed0bf",
+        iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/DSTU2/",
         redirectUri: "https://bellkevin677.github.io/UMX-DX/"
     }).catch(console.error);
 }
